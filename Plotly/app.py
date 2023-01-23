@@ -12,7 +12,7 @@ import os
 
 load_figure_template('LUX')
 
-gitRepo = 'https://raw.githubusercontent.com/makers-mark/NCVoter/main/Data/'
+gitRepo = 'https://raw.githubusercontent.com/makers-mark/NCVoter/main/Data'
 localRepo = 'c:\\ncvoter\\Data'
 
 app = dash.Dash(external_stylesheets=[dbc.themes.LUX])
@@ -87,8 +87,6 @@ percent=False
 
 #counties = [ f.name.title() for f in os.scandir(directory) if f.is_dir() ]
 counties = ['ALAMANCE', 'ALEXANDER', 'ALLEGHANY', 'ANSON', 'ASHE', 'AVERY', 'BEAUFORT', 'BERTIE', 'BLADEN', 'BRUNSWICK', 'BUNCOMBE', 'BURKE', 'CABARRUS', 'CALDWELL', 'CAMDEN', 'CARTERET', 'CASWELL', 'CATAWBA', 'CHATHAM', 'CHEROKEE', 'CHOWAN', 'CLAY', 'CLEVELAND', 'COLUMBUS', 'CRAVEN', 'CUMBERLAND', 'CURRITUCK', 'DARE', 'DAVIDSON', 'DAVIE', 'DUPLIN', 'DURHAM', 'EDGECOMBE', 'FORSYTH', 'FRANKLIN', 'GASTON', 'GATES', 'GRAHAM', 'GRANVILLE', 'GREENE', 'GUILFORD', 'HALIFAX', 'HARNETT', 'HAYWOOD', 'HENDERSON', 'HERTFORD', 'HOKE', 'HYDE', 'IREDELL', 'JACKSON', 'JOHNSTON', 'JONES', 'LEE', 'LENOIR', 'LINCOLN', 'MACON', 'MADISON', 'MARTIN', 'MCDOWELL', 'MECKLENBURG', 'MITCHELL', 'MONTGOMERY', 'MOORE', 'NASH', 'NEW HANOVER', 'NORTHAMPTON', 'ONSLOW', 'ORANGE', 'PAMLICO', 'PASQUOTANK', 'PENDER', 'PERQUIMANS', 'PERSON', 'PITT', 'POLK', 'RANDOLPH', 'RICHMOND', 'ROBESON', 'ROCKINGHAM', 'ROWAN', 'RUTHERFORD', 'SAMPSON', 'SCOTLAND', 'STANLY', 'STOKES', 'SURRY', 'SWAIN', 'TRANSYLVANIA', 'TYRRELL', 'UNION', 'VANCE', 'WAKE', 'WARREN', 'WASHINGTON', 'WATAUGA', 'WAYNE', 'WILKES', 'WILSON', 'YADKIN', 'YANCEY']
-
-
 
 dropdownList = [{'label': x.title() + ' County', 'value': x } for x in counties]
 dropdownList.insert(0, {'label': 'Statewide', 'value': 'Statewide'})
@@ -284,6 +282,7 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 	else:
 		#values = values.replace(" County", "")
 		df = pd.read_csv("{}/{}/{}.csv".format(directory, dataFrame, dataFrame))
+		print("{}/{}/{}.csv".format(directory, dataFrame, dataFrame))
 
 	if (partyDataset is not None):
 		traces = [update_trace(x, df, percent) for x in partyDataset]
