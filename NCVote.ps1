@@ -6,9 +6,11 @@ $directory = "c:\ncvoter"
 if (Test-Path -Path "$directory"){
 } else {
     new-item -Force -Path "$directory\" -ItemType directory
-    #Write-Host $county.CountyName
+    new-item -Force -Path "$directory\Data\" -ItemType directory
 }
-
+if (-not(Test-Path -Path "$directory\Data")){
+    new-item -Force -Path "$directory\Data\" -ItemType directory
+}
 
 $Matches = ''
 $debug = $false
@@ -79,7 +81,7 @@ if ($debug -eq $false){
 
 
             #write-host $formattedDateTitle
-            if (test-path "$directory\$formattedDateTitle.csv"){
+            if (test-path "$directory\Data\$formattedDateTitle.csv"){
                 Write-Host("File exists, skipping!`r`n")
             } else {
                 Write-Host("Downloading and creating $formattedDateTitle")
@@ -146,7 +148,7 @@ if ($debug -eq $false){
 
                 $csv = $json | ConvertTo-Csv
                 Write-Host $formattedDateTitle
-                $json | Export-Csv -LiteralPath "$directory\$formattedDateTitle.csv" -NoTypeInformation -Force
+                $json | Export-Csv -LiteralPath "$directory\Data\$formattedDateTitle.csv" -NoTypeInformation -Force
             }
         }  #end foreach ($date in $datesAvailable.Text)
     }  #end for ($i = 2004; $i -lt 2023;$i++)
@@ -156,7 +158,7 @@ if ($debug -eq $false){
     $exportCsv       = "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"AmericanIndian`",`"NativeHawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"UndisclosedGender`",`"Total`"`r`n"
     #$exportCountyCsv = "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"AmericanIndian`",`"NativeHawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"UndisclosedGender`",`"Total`",`"Dpercent`",`"Rpercent`",`"Upercent`"`r`n"
     $i = 0
-    Get-ChildItem –Path "$directory\" -File | Sort-Object{$_.BaseName -as [datetime] | Select -First 1} |
+    Get-ChildItem –Path "$directory\Data\" -File | Sort-Object{$_.BaseName -as [datetime] | Select -First 1} |
     Foreach-Object {
         
         $baseName = $_.BaseName
@@ -217,11 +219,11 @@ if ($debug -eq $false){
                     Write-Host "Creating $($county.CountyName)"
                 }
                 #[string]$directory = $county.CountyName
-                if (Test-Path -Path "$directory\$($county.CountyName)"){
-                    Write-Host "$directory\$($county.CountyName) already Exists."
+                if (Test-Path -Path "$directory\Data\$($county.CountyName)"){
+                    Write-Host "$directory\Data\$($county.CountyName) already Exists."
                 } else {
-                    new-item -Force -Path "$directory\$($county.CountyName)\" -ItemType directory
-                    Write-Host "Creating Folder $directory\$($county.CountyName)"
+                    new-item -Force -Path "$directory\Data\$($county.CountyName)\" -ItemType directory
+                    Write-Host "Creating Folder $directory\Data\$($county.CountyName)"
                     #Write-Host $county.CountyName
                 }
             }
@@ -257,18 +259,18 @@ if ($debug -eq $false){
   
        
     }
-$directories = Get-ChildItem –Path "$directory" -Directory 
+$directories = Get-ChildItem –Path "$directory\Data" -Directory 
 
 foreach ($county in $directories){
     #Write-Host $county
     $content = (Get-Variable -name $county).Value
-    if (Test-Path "$directory\$county\$county.csv"){
-        Remove-Item "$directory\$county\$county.csv"
+    if (Test-Path "$directory\Data\$county\$county.csv"){
+        Remove-Item "$directory\Data\$county\$county.csv"
     }
-    Set-Content -Path "$directory\$county\$county.csv" -Value $content -Force
+    Set-Content -Path "$directory\Data\$county\$county.csv" -Value $content -Force
 }
 
-Set-Content -Path "$directory\alpha.csv" -Value $exportCsv -Force
+Set-Content -Path "$directory\Data\alpha.csv" -Value $exportCsv -Force
 #Export-Csv -InputObject $exportCsv -Path "c:\ffmpeg\csvTest.csv" -Force -NoTypeInformation
 
 
