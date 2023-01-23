@@ -47,11 +47,11 @@ colors = {
 		'fillcolor': 'rgba(0,0,0,{})'.format(traceOpacity),
 		'tracecolor': 'rgba(0,0,0,1)'
 	},
-	'AmericanIndian': {
+	'American Indian': {
 		'fillcolor': 'rgba(255,0,0,{})'.format(traceOpacity),
 		'tracecolor': 'red'
 	},
-	'NativeHawaiian': {
+	'Native Hawaiian': {
 		'fillcolor': 'rgba(20,155,20,{})'.format(traceOpacity),
 		'tracecolor': 'green'	
 	},
@@ -71,7 +71,7 @@ colors = {
 		'fillcolor': 'rgba(245,39,241,{})'.format(traceOpacity),
 		'tracecolor': 'pink'
 	},
-	'UndisclosedGender': {
+	'Undisclosed Gender': {
 		'fillcolor': 'rgba(20,155,20,{})'.format(traceOpacity),
 		'tracecolor': 'green'
 	}
@@ -133,8 +133,8 @@ sidebar = html.Div(
 						{'label': 'White', 'value': 'White'},
 						{'label': 'Black', 'value': 'Black'},
 						{'label': 'Other', 'value': 'Other'},
-						{'label': 'American Indian', 'value': 'AmericanIndian'},
-						{'label': 'Native Hawaiian', 'value': 'NativeHawaiian'}, 
+						{'label': 'American Indian', 'value': 'American Indian'},
+						{'label': 'Native Hawaiian', 'value': 'Native Hawaiian'}, 
 						{'label': 'Hispanic', 'value': 'Hispanic'}
 					],
 					inline=False,
@@ -145,7 +145,7 @@ sidebar = html.Div(
 					[
 						{'label': 'Male', 'value': 'Male'}, 
 						{'label': 'Female', 'value': 'Female'},
-						{'label': 'Undisclosed Gender', 'value': 'UndisclosedGender'}
+						{'label': 'Undisclosed Gender', 'value': 'Undisclosed Gender'}
 					],
 					inline=False,
 					id='sexDataset'
@@ -302,16 +302,16 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 		),
 		xaxis = {'showgrid': False},
 		yaxis = {'showgrid': False},
-		font=dict(
-			family='Courier New',
+		font=dict(  #axis'
+			family='Nunito Sans',
 			size=24,
 			#color='rgba(200,200,200,0.8)'
 		),
 		showlegend = True,
 		hoverlabel=dict(
-			#bgcolor='rgba(50,50,50,0.75)',
+			bgcolor='rgba(220,220,220,0.75)',
 			font=dict(
-				family='Courier New',
+				family='Nunito Sans',
 				size=16,
 				#color='rgba(200,200,220,1)'
 			)
@@ -326,15 +326,15 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 		#plot_bgcolor='rgba(50,50,75,0.9)',
 		legend=dict(
 			xanchor='left',
-			yanchor='top',
+			yanchor='bottom',
 			x=0,
-			y=0.2,
+			y=0.02,
 			font=dict(
-				family='Courier New',
-				size=16,
+				family = 'Nunito Sans',
+				size=18,
 				#color='rgba(255,255,255,0.98)'
 			),
-			#bgcolor='rgba(50,50,50,0.5)',
+			bgcolor='rgba(220,220,220,0.75)',
 			#bordercolor='Black',
 			borderwidth=2
 		)
