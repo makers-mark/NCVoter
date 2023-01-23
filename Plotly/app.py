@@ -1,7 +1,7 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
 
-from dash import Dash, html, dcc, Input, Output, ctx
+from dash import Dash, html, dcc, Input, Output
 import dash
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
@@ -272,17 +272,11 @@ def draw_annotations(value, fig):
 		Input('percent', 'value')
 	)
 def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, percent):
-	#print(ctx.triggered_id)
-	#print('Triggered id is ' + ctx.triggered_id)
 
-	traces = []
-	#print('dataFrame triggered_id')
 	if (dataFrame == 'Statewide'):
 		df = pd.read_csv("{}/alpha.csv".format(directory))
 	else:
-		#values = values.replace(" County", "")
 		df = pd.read_csv("{}/{}/{}.csv".format(directory, dataFrame, dataFrame))
-		print("{}/{}/{}.csv".format(directory, dataFrame, dataFrame))
 
 	if (partyDataset is not None):
 		traces = [update_trace(x, df, percent) for x in partyDataset]
