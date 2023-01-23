@@ -3,10 +3,8 @@
 #clear
 $directory = "c:\ncvoter"
 
-if (Test-Path -Path "$directory"){
-} else {
+if (-not(Test-Path -Path "$directory")){
     new-item -Force -Path "$directory\" -ItemType directory
-    new-item -Force -Path "$directory\Data\" -ItemType directory
 }
 if (-not(Test-Path -Path "$directory\Data")){
     new-item -Force -Path "$directory\Data\" -ItemType directory
@@ -162,7 +160,7 @@ if ($debug -eq $false){
     Foreach-Object {
         
         $baseName = $_.BaseName
-        if (($baseName -eq "alpha") -or ($baseName -eq "NCVote")){
+        if ($baseName -eq "alpha"){
             return
         }
         #$dateTimeObj = $baseName
