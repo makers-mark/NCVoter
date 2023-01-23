@@ -1,0 +1,11 @@
+#my-graph {
+	height: 100vh;
+}
+
+.Select-clear-zone {
+	display: none;
+}
+label {
+	display: block;
+	padding-left: 6px;
+}

@@ -262,7 +262,6 @@ def draw_annotations(value, fig):
 				line_dash='longdashdot', #solid dot dash longdash dashdot longdashdot
 				line_width=1
 			)
-
 	return fig	
 
 @app.callback(
@@ -292,8 +291,6 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 		traces += [update_trace(x, df, percent) for x in raceDataset]
 	if (sexDataset is not None):
 		traces += [update_trace(x, df, percent) for x in sexDataset]
-	#fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
-
 
 	data = traces
 
