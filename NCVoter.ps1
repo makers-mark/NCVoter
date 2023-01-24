@@ -15,7 +15,7 @@ $exportCsv = ''
 $content = ''
 
 if ($debug -eq $false){
-    for ($i = 2004; $i -lt 2024;$i++){
+    for ($i = 2004; $i -lt 2030;$i++){
 
         $datesAvailable = ''
 
@@ -25,7 +25,7 @@ if ($debug -eq $false){
         -Method "POST" `
         -WebSession $session `
         -Headers @{
-        "authority"="vt.ncsbe.gov"
+          "authority"="vt.ncsbe.gov"
           "method"="POST"
           "path"="/RegStat/GetLookupReportDates/"
           "scheme"="https"
@@ -80,7 +80,7 @@ if ($debug -eq $false){
                 $results = Invoke-WebRequest -UseBasicParsing -Uri "https://vt.ncsbe.gov/RegStat/Results/?date=$urlDateTitle" `
                 -WebSession $session `
                 -Headers @{
-                "authority"="vt.ncsbe.gov"
+                    "authority"="vt.ncsbe.gov"
                     "method"="GET"
                     "path"="/RegStat/Results/?date=10%2F17%2F2020"
                     "scheme"="https"

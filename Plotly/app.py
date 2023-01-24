@@ -72,8 +72,8 @@ colors = {
 		'tracecolor': 'pink'
 	},
 	'Undisclosed Gender': {
-		'fillcolor': 'rgba(20,155,20,{})'.format(traceOpacity),
-		'tracecolor': 'green'
+		'fillcolor': 'rgba(157,39,245,{})'.format(traceOpacity),
+		'tracecolor': 'hotpink'
 	}
 }
 
@@ -97,11 +97,11 @@ SIDEBAR_STYLE = {
     "left": 0,
     "bottom": 0,
     "width": "24rem",
-    "padding": "2rem 1rem",
+    "padding": "2rem 1rem 2rem",
 	"backgroundColor": "#eeeeee"
 }
 
-sidebar = html.Div(
+sidebar = dbc.Container(
     [
         html.H4(id='title'),
         html.Hr(),
@@ -161,7 +161,7 @@ sidebar = html.Div(
 	style=SIDEBAR_STYLE,
 )
 
-app.layout = html.Div(children=[
+app.layout = dbc.Container(children=[
 
 	dbc.Row(
 		[dbc.Col(sidebar),
@@ -169,7 +169,7 @@ app.layout = html.Div(children=[
 		]
 	)
 
-])
+], fluid=True)
 
 @app.callback(
 	Output(component_id='title', component_property='children'),
@@ -273,11 +273,20 @@ def draw_annotations(value, fig):
 	)
 def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, percent):
 
+	#datasets = filter(None, partyDataset + raceDataset + sexDataset)
+	#datasets = [x[0] for x in (partyDataset, raceDataset)]
+	#datasets = [x for x in (raceDataset, partyDataset, sexDataset) if x]
+	#datasets += [x for x in sexDataset if not None]
+	#datasets = filter(None, partyDataset)
+	#datasets += filter(None, raceDataset)
+	#datasets += filter(None, sexDataset)
+
 	if (dataFrame == 'Statewide'):
 		df = pd.read_csv("{}/alpha.csv".format(directory))
 	else:
 		df = pd.read_csv("{}/{}/{}.csv".format(directory, dataFrame, dataFrame))
-
+	#traces = [update_trace(x, df, percent) for x in {datasets}]
+	
 	if (partyDataset is not None):
 		traces = [update_trace(x, df, percent) for x in partyDataset]
 	if (raceDataset is not None):
@@ -320,7 +329,7 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 		legend=dict(
 			xanchor='left',
 			yanchor='bottom',
-			x=0,
+			x=0.01,
 			y=0.02,
 			font=dict(
 				family = 'Nunito Sans',
