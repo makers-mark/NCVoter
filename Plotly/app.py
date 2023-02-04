@@ -284,7 +284,10 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 	if (dataFrame == 'Statewide'):
 		df = pd.read_csv("{}/alpha.csv".format(directory))
 	else:
-		df = pd.read_csv("{}/{}/{}.csv".format(directory, dataFrame, dataFrame))
+		if (directory == gitRepo):        ##Fix for the county (New Hanover) that has a space in the name
+			df = pd.read_csv("{}/{}/{}.csv".format(directory, dataFrame.replace(" ", "%20"), dataFrame.replace(" ", "%20")))
+		else:
+			df = pd.read_csv("{}/{}/{}.csv".format(directory, dataFrame, dataFrame))
 	#traces = [update_trace(x, df, percent) for x in {datasets}]
 	
 	if (partyDataset is not None):
