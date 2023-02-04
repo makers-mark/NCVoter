@@ -32,8 +32,8 @@ colors = {
 		'tracecolor': 'yellow'
 	},
 	'Libertarians': {
-		'fillcolor': 'rgba(255,255,255,{})'.format(traceOpacity),
-		'tracecolor': 'white'
+		'fillcolor': 'rgba(155,155,155,{})'.format(traceOpacity),
+		'tracecolor': 'rgba(200,200,200,1)'
 	},
 	'Green': {
 		'fillcolor': 'rgba(20,155,20,{})'.format(traceOpacity),
