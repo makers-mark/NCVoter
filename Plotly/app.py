@@ -155,7 +155,7 @@ sidebar = dbc.Container(
 				)
 			],
 			vertical=True,
-			pills=True,
+			pills=False,
 		),
 	],
 	style=SIDEBAR_STYLE,
