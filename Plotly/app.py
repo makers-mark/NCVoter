@@ -77,8 +77,8 @@ colors = {
 	}
 }
 
-#directory = localRepo
-directory = gitRepo
+directory = localRepo
+#directory = gitRepo
 
 width=3
 gridcolor='rgba(100,100,100,0.8)'
