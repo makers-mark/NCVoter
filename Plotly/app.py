@@ -13,7 +13,8 @@ import os
 load_figure_template('LUX')
 
 gitRepo = 'https://raw.githubusercontent.com/makers-mark/NCVoter/main/Data'
-localRepo = 'c:\\ncvoter\\Data'
+#localRepo = 'c:\\ncvoter\\Data'
+backupRepo = 'C:\\ncvoter-6-10-23.backup\\Data'
 
 app = dash.Dash(external_stylesheets=[dbc.themes.LUX])
 
