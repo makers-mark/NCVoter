@@ -13,6 +13,7 @@ $formattedDateTitle = ''
 $counties = ''
 $exportCsv = ''
 $content = ''
+$isUpdated = $false
 
 if ($debug -eq $false){
     for ($i = 2004; $i -lt 2030;$i++){
@@ -72,6 +73,7 @@ if ($debug -eq $false){
                 Write-Host("File exists, skipping!`r`n")
             } else {
                 Write-Host("Downloading and creating $formattedDateTitle")
+                $isUpdated = $true
 
                 $urlDateTitle = $dateTitle.Replace("/","%2F")
 
@@ -202,3 +204,9 @@ foreach ($county in $directories){
 }
 
 Set-Content -Path "$directory\Data\alpha.csv" -Value $exportCsv -Force
+
+#if ($isUpdated){
+#    &git add .
+#    &git commit -m data
+#    &git push -u origin main
+#}
