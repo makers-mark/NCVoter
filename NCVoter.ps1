@@ -112,6 +112,7 @@ if ($debug -eq $false){
 
 }
 
+if ($isUpdated){
     $exportCsv       = "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"American Indian`",`"Native Hawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"Undisclosed Gender`",`"Total`"`r`n"
 
     $i = 0
@@ -193,9 +194,9 @@ if ($debug -eq $false){
   
        
     }
-$directories = Get-ChildItem –Path "$directory\Data" -Directory 
+    $directories = Get-ChildItem –Path "$directory\Data" -Directory 
 
-foreach ($county in $directories){
+    foreach ($county in $directories){
     $content = (Get-Variable -name $county).Value
     if (Test-Path "$directory\Data\$county\$county.csv"){
         Remove-Item "$directory\Data\$county\$county.csv"
@@ -203,10 +204,12 @@ foreach ($county in $directories){
     Set-Content -Path "$directory\Data\$county\$county.csv" -Value $content -Force
 }
 
-Set-Content -Path "$directory\Data\alpha.csv" -Value $exportCsv -Force
-
-#if ($isUpdated){
-#    &git add .
-#    &git commit -m data
-#    &git push -u origin main
-#}
+    Set-Content -Path "$directory\Data\alpha.csv" -Value $exportCsv -Force
+}
+if ($isUpdated){
+    Set-Location $directory
+    Write-Host 'Updating Repository'
+    &git add . | Out-Null
+    &git commit -m data | Out-Null
+    &git push -u origin main | Out-Null
+}
