@@ -14,7 +14,10 @@ load_figure_template('LUX')
 
 gitRepo = 'https://raw.githubusercontent.com/makers-mark/NCVoter/main/Data'
 #localRepo = 'c:\\ncvoter\\Data'
-backupRepo = 'C:\\ncvoter-6-10-23.backup\\Data'
+#backupRepo = 'C:\\ncvoter-6-10-23.backup\\Data'
+backupRepo = 'C:\\ncvoter-6-10-23.backup\\tessstfornewCAT'
+
+localRepo = 'c:\\ncvoter.new.4\\Data'
 
 app = dash.Dash(external_stylesheets=[dbc.themes.LUX])
 
@@ -75,11 +78,23 @@ colors = {
 	'Undisclosed Gender': {
 		'fillcolor': 'rgba(157,39,245,{})'.format(traceOpacity),
 		'tracecolor': 'hotpink'
+	},
+	'Multiracial': {
+		'fillcolor': 'rgba(157,39,245,{})'.format(traceOpacity),
+		'tracecolor': 'brown'
+	},
+		'Undesignated': {
+		'fillcolor': 'rgba(157,39,245,{})'.format(traceOpacity),
+		'tracecolor': 'green'
+	},
+	'No Labels': {
+		'fillcolor': 'rgba(157,39,245,{})'.format(traceOpacity),
+		'tracecolor': 'purple'
 	}
 }
 
-#directory = localRepo
-directory = gitRepo
+directory = localRepo
+#directory = gitRepo
 
 width=3
 gridcolor='rgba(100,100,100,0.8)'
@@ -121,7 +136,7 @@ sidebar = dbc.Container(
 				), html.Hr(),
 				html.H4('Party'),
 				dcc.Checklist(
-					['Republicans', 'Democrats', 'Unaffiliated', 'Libertarians', 'Green'],
+					['Republicans', 'Democrats', 'Unaffiliated', 'Libertarians', 'Green', 'No Labels'],
 					value = ['Republicans', 'Democrats', 'Unaffiliated'],
 					inline=False,
 					id='partyDataset'
@@ -134,7 +149,9 @@ sidebar = dbc.Container(
 						{'label': 'Other', 'value': 'Other'},
 						{'label': 'American Indian', 'value': 'American Indian'},
 						{'label': 'Native Hawaiian', 'value': 'Native Hawaiian'}, 
-						{'label': 'Hispanic', 'value': 'Hispanic'}
+						{'label': 'Hispanic', 'value': 'Hispanic'},
+						{'label': 'Multiracial', 'value': 'Multiracial'},
+						{'label': 'Undesignated', 'value': 'Undesignated'}
 					],
 					inline=False,
 					id='raceDataset'
@@ -376,4 +393,4 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 	#	return [draw_annotations(a) for a in values2]
 
 if __name__ == '__main__':
-    app.run_server(debug=False, port=12443)
+    app.run_server(debug=True, port=12444)

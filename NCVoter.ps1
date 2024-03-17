@@ -46,22 +46,6 @@ if ($debug -eq $false){
 
         foreach ($dates in $datesAvailable.Text){
 
-            $totalDemocrats      = 0
-            $totalRepublicans    = 0
-            $totalUnaffiliated   = 0
-            $totalGreen          = 0
-            $totalConstitution   = 0
-            $totalLibertarian    = 0
-            $totalWhite          = 0
-            $totalBlack          = 0
-            $totalAmericanIndian = 0
-            $totalNativeHawaiian = 0
-            $totalOther          = 0
-            $totalHispanic       = 0
-            $totalMale           = 0
-            $totalFemale         = 0
-            $totalUndisclosedGen = 0
-
             $dateTitle =  $dates
             $formattedDateTitle = $dateTitle.replace("/","-")
 
@@ -113,7 +97,7 @@ if ($debug -eq $false){
 }
 
 if ($isUpdated){
-    $exportCsv       = "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"American Indian`",`"Native Hawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"Undisclosed Gender`",`"Total`"`r`n"
+    $exportCsv = "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"American Indian`",`"Native Hawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"Undisclosed Gender`",`"No Labels`",`"Multiracial`",`"Undesignated`",`"Total`"`r`n"
 
     $i = 0
     Get-ChildItem –Path "$directory\Data\" -File | Sort-Object{$_.BaseName -as [datetime] | Select -First 1} |
@@ -144,6 +128,9 @@ if ($isUpdated){
         $male              = 0
         $female            = 0
         $undisclosedGender = 0
+        $noLabels = 0
+        $multiracial = 0
+        $undesignated = 0
 
         if ($i -eq 0){
             ForEach($county in $csvFile){
@@ -153,9 +140,11 @@ if ($isUpdated){
                     Get-Variable -Name $county.CountyName | Remove-Variable
                     Write-Host "Removing $($county.CountyName)"
                     Write-Host "Creating $($county.CountyName)"
-                    New-Variable -Name $county.CountyName -Value "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"American Indian`",`"Native Hawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"Undisclosed Gender`",`"Total`"`r`n"
+                    New-Variable -Name $county.CountyName -Value "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"American Indian`",`"Native Hawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"Undisclosed Gender`",`"No Labels`",`"Multiracial`",`"Undesignated`",`"Total`"`r`n"
+
                 } else {
-                    New-Variable -Name $county.CountyName -Value "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"American Indian`",`"Native Hawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"Undisclosed Gender`",`"Total`"`r`n"
+                    New-Variable -Name $county.CountyName -Value "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"American Indian`",`"Native Hawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"Undisclosed Gender`",`"No Labels`",`"Multiracial`",`"Undesignated`",`"Total`"`r`n"
+
                     Write-Host "Creating $($county.CountyName)"
                 }
 
@@ -169,7 +158,7 @@ if ($isUpdated){
         }
 
         ForEach($county in $csvFile){
-            (Get-Variable -name $($county.CountyName)).Value += "`"$baseName`",`"$($county.Democrats)`",`"$($county.Republicans)`",`"$($county.Green)`",`"$($county.Constitution)`",`"$($county.Libertarians)`",`"$($county.Unaffiliated)`",`"$($county.White)`",`"$($county.Black)`",`"$($county.AmericanIndian)`",`"$($county.NativeHawaiian)`",`"$($county.Other)`",`"$($county.Hispanic)`",`"$($county.Male)`",`"$($county.Female)`",`"$($county.UnDisclosedGender)`",`"$($county.Total)`"`r`n"
+            (Get-Variable -name $($county.CountyName)).Value += "`"$baseName`",`"$($county.Democrats)`",`"$($county.Republicans)`",`"$($county.Green)`",`"$($county.Constitution)`",`"$($county.Libertarians)`",`"$($county.Unaffiliated)`",`"$($county.White)`",`"$($county.Black)`",`"$($county.AmericanIndian)`",`"$($county.NativeHawaiian)`",`"$($county.Other)`",`"$($county.Hispanic)`",`"$($county.Male)`",`"$($county.Female)`",`"$($county.UnDisclosedGender)`",`"$($county.NoLabels)`",`"$($county.Multiracial)`",`"$($county.Undesignated)`",`"$($county.Total)`"`r`n"
 
             $total += $county.Total
             $repubs += $county.Republicans
@@ -187,10 +176,13 @@ if ($isUpdated){
             $male += $county.Male
             $female += $county.Female
             $undisclosedGender += $county.UnDisclosedGender
-
+            
+            $noLabels += $county.NoLabels
+            $multiracial += $county.Multiracial
+            $undesignated += $county.Undesignated
         }
         
-        $exportCsv += "`"$baseName`",`"$dems`",`"$repubs`",`"$green`",`"$constitution`",`"$libertarian`",`"$unafil`",`"$white`",`"$black`",`"$americanIndian`",`"$nativeHawaiian`",`"$other`",`"$hispanic`",`"$male`",`"$female`",`"$undisclosedGender`",`"$total`"`r`n"
+        $exportCsv += "`"$baseName`",`"$dems`",`"$repubs`",`"$green`",`"$constitution`",`"$libertarian`",`"$unafil`",`"$white`",`"$black`",`"$americanIndian`",`"$nativeHawaiian`",`"$other`",`"$hispanic`",`"$male`",`"$female`",`"$undisclosedGender`",`"$noLabels`",`"$multiracial`",`"$undesignated`",`"$total`"`r`n"
   
        
     }
