@@ -17,7 +17,7 @@ gitRepo = 'https://raw.githubusercontent.com/makers-mark/NCVoter/main/Data'
 #backupRepo = 'C:\\ncvoter-6-10-23.backup\\Data'
 backupRepo = 'C:\\ncvoter-6-10-23.backup\\tessstfornewCAT'
 
-localRepo = 'c:\\ncvoter.new.4\\Data'
+localRepo = 'c:\\ncvoter\\Data'
 
 app = dash.Dash(external_stylesheets=[dbc.themes.LUX])
 
