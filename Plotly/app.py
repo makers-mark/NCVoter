@@ -2,15 +2,15 @@
 # visit http://127.0.0.1:8050/ in your web browser.
 
 from dash import Dash, html, dcc, Input, Output
-import dash
+import string
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
-import plotly.express as px
+#import plotly.express as px
 import pandas as pd
 import plotly.graph_objects as go
 import os
 
-load_figure_template('LUX')
+load_figure_template(['CYBORG', 'DARKLY'])#('LUX')
 
 gitRepo = 'https://raw.githubusercontent.com/makers-mark/NCVoter/main/Data'
 #localRepo = 'c:\\ncvoter\\Data'
@@ -19,7 +19,7 @@ backupRepo = 'C:\\ncvoter-6-10-23.backup\\tessstfornewCAT'
 
 localRepo = 'c:\\ncvoter\\Data'
 
-app = dash.Dash(external_stylesheets=[dbc.themes.LUX])
+app = Dash(external_stylesheets=[dbc.themes.DARKLY])
 
 traceOpacity = 0.1
 colors = {
@@ -45,10 +45,10 @@ colors = {
 	},
 	'White': {
 		'fillcolor': 'rgba(100,100,100,{})'.format(traceOpacity),
-		'tracecolor': 'rgba(40,40,40,1)'
+		'tracecolor': 'rgba(10,10,10,1)'
 	},
 	'Black': {
-		'fillcolor': 'rgba(0,0,0,{})'.format(traceOpacity),
+		'fillcolor': 'rgba(20,20,20,{})'.format(traceOpacity),
 		'tracecolor': 'rgba(0,0,0,1)'
 	},
 	'American Indian': {
@@ -83,7 +83,7 @@ colors = {
 		'fillcolor': 'rgba(157,39,245,{})'.format(traceOpacity),
 		'tracecolor': 'brown'
 	},
-		'Undesignated': {
+	'Undesignated': {
 		'fillcolor': 'rgba(157,39,245,{})'.format(traceOpacity),
 		'tracecolor': 'green'
 	},
@@ -97,7 +97,7 @@ directory = localRepo
 #directory = gitRepo
 
 width=3
-gridcolor='rgba(100,100,100,0.8)'
+gridcolor='rgba(70,70,70,0.8)'
 title=''
 percent=False
 
@@ -108,40 +108,57 @@ dropdownList = [{'label': x.title() + ' County', 'value': x } for x in counties]
 dropdownList.insert(0, {'label': 'Statewide', 'value': 'Statewide'})
 
 SIDEBAR_STYLE = {
+    #"position": "fixed",
+    #"top": 0,
+    #"left": 0,
+    #"bottom": 0,
+    "padding": "1rem",
+	#"backgroundColor": "#eeeeee",
     "position": "fixed",
-    "top": 0,
-    "left": 0,
-    "bottom": 0,
-    "width": "24rem",
-    "padding": "2rem 1rem 2rem",
-	"backgroundColor": "#eeeeee"
+    "top": '0.5rem',
+    "left": '0.5rem',
+    "bottom": '0.5rem',
+    "width": "14rem",
+    "paddingTop": "1rem",
+	"paddingLeft": "1rem",
+	'paddingBottom': '1rem',
+	"overflowY": "auto",
+	"boxSizing": "unset",
+	"color": "rgb(173, 175, 174)",
+	#"borderBox": "2px",
+	'border': '4px',
+	'borderStyle': 'groove',
+	'borderColor': '#111',
+	
 }
 
-sidebar = dbc.Container(
+sidebar = html.Div(
     [
-        html.H4(id='title'),
-        html.Hr(),
         dbc.Nav(
             [
 				dcc.Dropdown(
 					dropdownList,
 					'Statewide',
-					id = "dataFrame"
+					id = "dataFrame",
+					clearable = False,
+					style = {
+						'cursor': 'pointer'
+					},
 				),html.Hr(),
-				html.H4('Annotations'),
+				html.H5('Annotations'),
 				dcc.Checklist(
 					['Federal Election', 'Midterm Election', 'Voter Roll Purge'],
 					inline=False,
 					id='annotations'
 				), html.Hr(),
-				html.H4('Party'),
+				html.H5('Party'),
 				dcc.Checklist(
 					['Republicans', 'Democrats', 'Unaffiliated', 'Libertarians', 'Green', 'No Labels'],
 					value = ['Republicans', 'Democrats', 'Unaffiliated'],
 					inline=False,
 					id='partyDataset'
 				), html.Hr(),
-				html.H4('Race'),
+				html.H5('Race'),
 				dcc.Checklist(
 					[
 						{'label': 'White', 'value': 'White'},
@@ -155,8 +172,8 @@ sidebar = dbc.Container(
 					],
 					inline=False,
 					id='raceDataset'
-				), html.H4(),
-				html.H4('Sex'),
+				), html.Hr(),
+				html.H5('Sex'),
 				dcc.Checklist(
 					[
 						{'label': 'Male', 'value': 'Male'}, 
@@ -179,25 +196,28 @@ sidebar = dbc.Container(
 	style=SIDEBAR_STYLE,
 )
 
-app.layout = dbc.Container(children=[
+CONTENT_STYLE = {
+    "margin-left": "15rem",
+	"height": "100vh"
+}
 
-	dbc.Row(
-		[dbc.Col(sidebar),
-		dbc.Col(dcc.Graph(id='my-graph'), width = 10, style = {'padding':'0px', 'marginLeft':'1px', 'marginTop':'10px','marginRight':'0px'})
-		]
-	)
+content = html.Div([dcc.Graph(id='my-graph', style = CONTENT_STYLE)])
 
-], fluid=True)
+app.layout = html.Div([ sidebar, content ])  #dbc.Container(children=[
+
+	#dbc.Row(
+	#	[dbc.Col(sidebar),
+	#	dbc.Col(dcc.Graph(id='my-graph'))#, width = 10, style = {'padding':'0px', 'marginLeft':'1px', 'marginTop':'10px','marginRight':'0px'})
+	#	]
+	#)
+
+#],
+#fluid = True,
+#className = "dbc")
 
 @app.callback(
 	Output(component_id='title', component_property='children'),
 	Input('dataFrame', 'value'))
-def update_title(values):
-	if (values == 'Statewide'):
-		return 'North Carolina Voter Registration Statistics'
-	else:
-		return u'{} County Voter Registration Statistics'.format(values)
-
 def update_trace(dataset, df, percent):
 	def getY():
 		if (percent):
@@ -219,7 +239,7 @@ def update_trace(dataset, df, percent):
 
 def draw_annotations(value, fig):
 	if (value == 'Federal Election'):
-		presidentialElections = ["2020-11-3", "2016-11-6", "2012-11-6", "2008-11-4", "2004-11-2"]
+		presidentialElections = ["2020-11-3", "2016-11-6", "2012-11-6", "2008-11-4", "2004-11-2"]  #"2025-11-5"
 		#fig = go.Figure()
 		for i in presidentialElections:
 			fig.add_shape(type='line',
@@ -255,7 +275,7 @@ def draw_annotations(value, fig):
 				exclude_empty_subplots=False,
 				layer='above',
 				line_dash='dot', #solid dot dash longdash dashdot longdashdot
-				line_width=1
+				line_width=2
 		)
 	elif (value == 'Voter Roll Purge'):
 		for i in range(2005, 2025, 2):
@@ -276,7 +296,7 @@ def draw_annotations(value, fig):
 				exclude_empty_subplots=True,
 				layer='below',
 				line_dash='longdashdot', #solid dot dash longdash dashdot longdashdot
-				line_width=1
+				line_width=2
 			)
 	return fig	
 
@@ -290,7 +310,7 @@ def draw_annotations(value, fig):
 		Input('percent', 'value')
 	)
 def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, percent):
-
+	#print(dataFrame)
 	#datasets = filter(None, partyDataset + raceDataset + sexDataset)
 	#datasets = [x[0] for x in (partyDataset, raceDataset)]
 	#datasets = [x for x in (raceDataset, partyDataset, sexDataset) if x]
@@ -298,7 +318,13 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 	#datasets = filter(None, partyDataset)
 	#datasets += filter(None, raceDataset)
 	#datasets += filter(None, sexDataset)
-
+	def update_title(value):
+		if (value == 'Statewide'):
+			return 'North Carolina Voter Registration Statistics'
+		else:
+			return string.capwords(u'{} County Voter Registration Statistics'.format(value))
+	if (dataFrame is None):
+		dataFrame = 'Statewide'
 	if (dataFrame == 'Statewide'):
 		df = pd.read_csv("{}/alpha.csv".format(directory))
 	else:
@@ -318,24 +344,63 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 	data = traces
 
 	layout = go.Layout(
+		uirevision = '1', # keep zoom when changing dropdown datasets
 		title=dict(
-			text=title,
+			text=update_title(dataFrame),
 			xanchor='center',
-			x=0.5
+			x=0.5,
+			font=dict(
+				size=30
+			)
 		),
-		xaxis = {'showgrid': False},
-		yaxis = {'showgrid': False},
-		font=dict(  #axis'
-			family='Nunito Sans',
-			size=24,
+		#xaxis = {'showgrid': True},
+		#yaxis = {'showgrid': False},
+		xaxis = dict(
+			# title = "Dates",
+			linecolor = "#BCCCDC",  # Sets color of X-axis line
+			showgrid = False,  # Removes X-axis grid lines
+			zeroline = False, # thick line at x=0
+			showline = False, #removes X-axis line
+			showticklabels=True, # axis ticklabels
+			visible = True,  # numbers below
+
+			showspikes = True,  #shows vertical line on hover
+			spikemode  = 'toaxis+across',   #shows vertical line on hover
+			spikesnap = 'cursor',
+			
+			spikedash = 'solid', #shows vertical line on hover
+			spikecolor = "rgba(10,10,10,0.7)",
+			spikethickness = 1,
+			gridcolor=gridcolor,
+			nticks=29,
+			tickfont_size=16,
+			type='date',
+			hoverformat='<b>%b %d, %Y</b>'
+		),
+		yaxis = dict(
+			# title="Price",  
+			linecolor="#BCCCDC",  # Sets color of Y-axis line
+			gridcolor = gridcolor,
+			showgrid= True,  # Removes Y-axis grid lines  
+			zeroline = False, # thick line at x=0
+			showline = False, #removes Y-axis line
+			showspikes = False,
+			showticklabels=True, # axis ticklabels
+			visible = True,  # numbers below
+			tickfont_size = 16
+		),
+		#font=dict(  #axis'
+			#family='Nunito Sans',
+			#size=20,
 			#color='rgba(200,200,200,0.8)'
-		),
-		showlegend = True,
+		#),
+		showlegend = False,
+		hoverdistance = -1,
 		hoverlabel=dict(
-			bgcolor='rgba(220,220,220,0.75)',
+			bgcolor='rgba(20,20,20,0.85)',
 			font=dict(
 				family='Nunito Sans',
-				size=16,
+				size=18,
 				#color='rgba(200,200,220,1)'
 			)
 		),
@@ -343,9 +408,9 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 		xaxis_tickangle=-45,
 		#xaxis_color='rgba(200,200,200,0.7)',  #font for years
 		#yaxis_color='rgba(200,200,200,0.7)',  #font for Number
-		#paper_bgcolor='rgba(20,20,30,0.9)',
+		paper_bgcolor='rgba(20,20,30,0)',
 		#paper_bgcolor='rgba(200,200,210,0.9)',
-		#plot_bgcolor='rgba(210,210,220,0.9)',
+		plot_bgcolor='rgba(210,210,220,0)',
 		#plot_bgcolor='rgba(50,50,75,0.9)',
 		legend=dict(
 			xanchor='left',
@@ -354,7 +419,7 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 			y=0.02,
 			font=dict(
 				family = 'Nunito Sans',
-				size=18,
+				size=14,
 				#color='rgba(255,255,255,0.98)'
 			),
 			bgcolor='rgba(220,220,220,0.75)',
@@ -365,17 +430,9 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 	)
 	fig = go.Figure(data=data, layout=layout)
 
-	fig.update_xaxes(
-		gridcolor=gridcolor,
-		nticks=29,
-		tickfont_size=18,
-		type='date',
-		hoverformat='<i><b>%b %d, %Y</b></i>'
-	)
-
 	#fig.layout.plot_bgcolor = 'black'
 	#fig.layout.paper_bgcolor = 'black'
-	fig.layout.template = 'presentation'
+	#fig.layout.template = 'presentation'
 	if (annotations):
 		[draw_annotations(a, fig) for a in annotations]
 	if (percent):
@@ -386,6 +443,7 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 		fig.update_yaxes(gridcolor=gridcolor, mirror='ticks', tickfont_size=18)#, tickformat='%{y:,}')
 		fig.update_traces(hovertemplate='%{y:,}')
 		
+	#fig['layout']['uirevision'] = '1'
 	return fig
 	
 	#if ((ctx.triggered_id == 'dataFrame') or (ctx.triggered_id == None)):
@@ -393,4 +451,4 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 	#	return [draw_annotations(a) for a in values2]
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=12444)
+    app.run_server(debug=False, use_reloader = True)
