@@ -9,6 +9,10 @@ from dash_bootstrap_templates import load_figure_template
 import pandas as pd
 import plotly.graph_objects as go
 import os
+import flask
+from waitress import serve
+
+flask_server = flask.Flask(__name__)
 
 load_figure_template(['CYBORG', 'DARKLY'])#('LUX')
 
@@ -19,7 +23,8 @@ backupRepo = 'C:\\ncvoter-6-10-23.backup\\tessstfornewCAT'
 
 localRepo = 'c:\\ncvoter\\Data'
 
-app = Dash(external_stylesheets=[dbc.themes.DARKLY])
+app = Dash(__name__,server=flask_server,external_stylesheets=[dbc.themes.DARKLY])
+server = app.server
 
 traceOpacity = 0.1
 colors = {
@@ -451,4 +456,5 @@ def update_graph(dataFrame, annotations, partyDataset, raceDataset, sexDataset, 
 	#	return [draw_annotations(a) for a in values2]
 
 if __name__ == '__main__':
-    app.run_server(debug=False, use_reloader = True)
+	serve(app.server, host="0.0.0.0", port=12223, threads=96)
+    #app.run_server(debug=False, use_reloader = True)
