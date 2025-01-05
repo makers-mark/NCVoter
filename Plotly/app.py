@@ -244,7 +244,7 @@ def update_trace(dataset, df, percent):
 
 def draw_annotations(value, fig):
 	if (value == 'Federal Election'):
-		presidentialElections = ["2020-11-3", "2016-11-6", "2012-11-6", "2008-11-4", "2004-11-2"]  #"2025-11-5"
+		presidentialElections = ["2020-11-3", "2016-11-6", "2012-11-6", "2008-11-4", "2004-11-2", "2024-11-5"]
 		#fig = go.Figure()
 		for i in presidentialElections:
 			fig.add_shape(type='line',
