@@ -283,7 +283,7 @@ def draw_annotations(value, fig):
 				line_width=2
 		)
 	elif (value == 'Voter Roll Purge'):
-		for i in range(2005, 2025, 2):
+		for i in range(2005, 2026, 2):
 			#if math.isnan(max(df[df['Date'] == "{}-01-01".format(i)]['Republicans'].max(), df[df['Date'] == "{}-01-01".format(i)]['Democrats'].max(), df[df['Date'] == "{}-01-01".format(i)]['Unaffiliated'].max())):
 			#	interpolate("{}-01-01".format(i), "Republicans", "Democrats", "Unaffiliated", "Libertarians")
 
