@@ -1,207 +1,213 @@
-﻿$directory = "c:\ncvoter"
+﻿#Requires -Version 5.1
 
-if (-not(Test-Path -Path "$directory")){
-    new-item -Force -Path "$directory\" -ItemType directory
-}
-if (-not(Test-Path -Path "$directory\Data")){
-    new-item -Force -Path "$directory\Data\" -ItemType directory
-}
-
-$Matches = ''
-$debug = $false
-$formattedDateTitle = ''
-$counties = ''
-$exportCsv = ''
-$content = ''
+$directory = "c:\ncvoter"
+$debug     = $false
 $isUpdated = $false
 
-if ($debug -eq $false){
-    for ($i = 2004; $i -lt 2030;$i++){
+# Ensure required directories exist
+foreach ($path in "$directory", "$directory\Data") {
+    if (-not (Test-Path $path)) {
+        New-Item -Force -Path $path -ItemType Directory | Out-Null
+    }
+}
 
-        $datesAvailable = ''
+# ── Shared request configuration ────────────────────────────────────────────
+$userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
 
-        $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-        $session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
-        $datesAvailable = Invoke-WebRequest -UseBasicParsing -Uri "https://vt.ncsbe.gov/RegStat/GetLookupReportDates/" `
-        -Method "POST" `
-        -WebSession $session `
-        -Headers @{
-          "authority"="vt.ncsbe.gov"
-          "method"="POST"
-          "path"="/RegStat/GetLookupReportDates/"
-          "scheme"="https"
-          "accept"="*/*"
-          "accept-encoding"="gzip, deflate, br"
-          "accept-language"="en-US,en;q=0.9"
-          "origin"="https://vt.ncsbe.gov"
-          "referer"="https://vt.ncsbe.gov/RegStat/"
-          "sec-fetch-dest"="empty"
-          "sec-fetch-mode"="cors"
-          "sec-fetch-site"="same-origin"
-          "sec-gpc"="1"
-          "x-requested-with"="XMLHttpRequest"
-        } `
-        -ContentType "application/x-www-form-urlencoded; charset=UTF-8" `
-        -Body "ReportYear=$i" | ConvertFrom-Json
+$dateApiHeaders = @{
+    "authority"         = "vt.ncsbe.gov"
+    "accept"            = "*/*"
+    "accept-encoding"   = "gzip, deflate, br"
+    "accept-language"   = "en-US,en;q=0.9"
+    "origin"            = "https://vt.ncsbe.gov"
+    "referer"           = "https://vt.ncsbe.gov/RegStat/"
+    "sec-fetch-dest"    = "empty"
+    "sec-fetch-mode"    = "cors"
+    "sec-fetch-site"    = "same-origin"
+    "sec-gpc"           = "1"
+    "x-requested-with"  = "XMLHttpRequest"
+}
 
-        foreach ($dates in $datesAvailable.Text){
+$dataPageHeaders = @{
+    "authority"                 = "vt.ncsbe.gov"
+    "accept"                    = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"
+    "accept-encoding"           = "gzip, deflate, br"
+    "accept-language"           = "en-US,en;q=0.9"
+    "cache-control"             = "max-age=0"
+    "referer"                   = "https://vt.ncsbe.gov/RegStat/"
+    "sec-fetch-dest"            = "document"
+    "sec-fetch-mode"            = "navigate"
+    "sec-fetch-site"            = "same-origin"
+    "sec-fetch-user"            = "?1"
+    "sec-gpc"                   = "1"
+    "upgrade-insecure-requests" = "1"
+}
 
-            $dateTitle =  $dates
-            $formattedDateTitle = $dateTitle.replace("/","-")
+# ── Phase 1: Download missing date CSVs ─────────────────────────────────────
+if (-not $debug) {
+    $startYear = 2004
+    $endYear   = (Get-Date).Year + 1
+    $yearSpan  = $endYear - $startYear
 
-            [string]$year = $formattedDateTitle.Substring($formattedDateTitle.Length -4)
-            [string]$MMdd = $formattedDateTitle.Substring(0, 5)
-            $formattedDateTitle = "$year-$MMdd"
+    for ([int]$year = $startYear; $year -le $endYear; $year++) {
+        $pct = [int](($year - $startYear) / $yearSpan * 100)
+        Write-Progress -Activity "Checking available report dates" -Status "Year $year" -PercentComplete $pct
 
-            if (test-path "$directory\Data\$formattedDateTitle.csv"){
-                Write-Host("File exists, skipping!`r`n")
-            } else {
-                Write-Host("Downloading and creating $formattedDateTitle")
-                $isUpdated = $true
+        $session           = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+        $session.UserAgent = $userAgent
 
-                $urlDateTitle = $dateTitle.Replace("/","%2F")
-
-                $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-                $session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.61 Safari/537.36"
-                $results = Invoke-WebRequest -UseBasicParsing -Uri "https://vt.ncsbe.gov/RegStat/Results/?date=$urlDateTitle" `
+        try {
+            $datesAvailable = Invoke-WebRequest -UseBasicParsing `
+                -Uri     "https://vt.ncsbe.gov/RegStat/GetLookupReportDates/" `
+                -Method  POST `
                 -WebSession $session `
-                -Headers @{
-                    "authority"="vt.ncsbe.gov"
-                    "method"="GET"
-                    "path"="/RegStat/Results/?date=10%2F17%2F2020"
-                    "scheme"="https"
-                    "accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
-                    "accept-encoding"="gzip, deflate, br"
-                    "accept-language"="en-US;q=0.8"
-                    "cache-control"="max-age=0"
-                    "referer"="https://vt.ncsbe.gov/RegStat/"
-                    "sec-fetch-dest"="document"
-                    "sec-fetch-mode"="navigate"
-                    "sec-fetch-site"="same-origin"
-                    "sec-fetch-user"="?1"
-                    "sec-gpc"="1"
-                    "upgrade-insecure-requests"="1"
-                }
-
-                $results -match 'var data = \[.*'
-
-                $data = $Matches.Values
-                $json = $data.Replace("var data = ", "") | ConvertFrom-Json
-
-                Write-Host $formattedDateTitle
-                $json | Export-Csv -LiteralPath "$directory\Data\$formattedDateTitle.csv" -NoTypeInformation -Force
-            }
-        }  #end foreach ($date in $datesAvailable.Text)
-    }  #end for ($i = 2004; $i -lt 2023;$i++)
-
-}
-
-if ($isUpdated){
-    $exportCsv = "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"American Indian`",`"Native Hawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"Undisclosed Gender`",`"No Labels`",`"Multiracial`",`"Undesignated`",`"Total`"`r`n"
-
-    $i = 0
-    Get-ChildItem –Path "$directory\Data\" -File | Sort-Object{$_.BaseName -as [datetime] | Select -First 1} |
-    Foreach-Object {
-        
-        $baseName = $_.BaseName
-        if ($baseName -eq "alpha"){
-            return
+                -Headers $dateApiHeaders `
+                -ContentType "application/x-www-form-urlencoded; charset=UTF-8" `
+                -Body    "ReportYear=$year" | ConvertFrom-Json
+        } catch {
+            Write-Warning "Could not retrieve dates for $year`: $_"
+            continue
         }
 
-        Write-Host $_.BaseName
-        
-        $csvFile = Import-Csv -LiteralPath $_.FullName
+        foreach ($dateText in $datesAvailable.Text) {
+            # Reformat MM/dd/yyyy -> yyyy-MM-dd
+            $formatted = $dateText -replace '^(\d{2})/(\d{2})/(\d{4})$', '$3-$1-$2'
+            $filePath  = "$directory\Data\$formatted.csv"
 
-        $total             = 0
-        $dems              = 0
-        $repubs            = 0
-        $green             = 0
-        $constitution      = 0
-        $libertarian       = 0
-        $unafil            = 0
-        $white             = 0
-        $black             = 0
-        $americanIndian    = 0
-        $nativeHawaiian    = 0
-        $other             = 0
-        $hispanic          = 0
-        $male              = 0
-        $female            = 0
-        $undisclosedGender = 0
-        $noLabels = 0
-        $multiracial = 0
-        $undesignated = 0
+            if (Test-Path $filePath) {
+                Write-Host "  SKIP  $formatted" -ForegroundColor DarkGray
+            } else {
+                Write-Host "  FETCH $formatted" -ForegroundColor Cyan
 
-        if ($i -eq 0){
-            ForEach($county in $csvFile){
-                $i++
-                Write-Host $county
-                if (Get-Variable -Name $county.CountyName -ErrorAction SilentlyContinue){
-                    Get-Variable -Name $county.CountyName | Remove-Variable
-                    Write-Host "Removing $($county.CountyName)"
-                    Write-Host "Creating $($county.CountyName)"
-                    New-Variable -Name $county.CountyName -Value "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"American Indian`",`"Native Hawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"Undisclosed Gender`",`"No Labels`",`"Multiracial`",`"Undesignated`",`"Total`"`r`n"
+                $urlDate     = [Uri]::EscapeDataString($dateText)
+                $dataSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+                $dataSession.UserAgent = $userAgent
 
-                } else {
-                    New-Variable -Name $county.CountyName -Value "`"Date`",`"Democrats`",`"Republicans`",`"Green`",`"Constitution`",`"Libertarians`",`"Unaffiliated`",`"White`",`"Black`",`"American Indian`",`"Native Hawaiian`",`"Other`",`"Hispanic`",`"Male`",`"Female`",`"Undisclosed Gender`",`"No Labels`",`"Multiracial`",`"Undesignated`",`"Total`"`r`n"
+                try {
+                    $response = Invoke-WebRequest -UseBasicParsing `
+                        -Uri        "https://vt.ncsbe.gov/RegStat/Results/?date=$urlDate" `
+                        -WebSession $dataSession `
+                        -Headers    $dataPageHeaders
 
-                    Write-Host "Creating $($county.CountyName)"
-                }
-
-                if (Test-Path -Path "$directory\Data\$($county.CountyName)"){
-                    Write-Host "$directory\Data\$($county.CountyName) already Exists."
-                } else {
-                    new-item -Force -Path "$directory\Data\$($county.CountyName)\" -ItemType directory
-                    Write-Host "Creating Folder $directory\Data\$($county.CountyName)"
+                    if ($response.Content -match 'var data = \[.*') {
+                        $json = $Matches[0].Replace("var data = ", "") | ConvertFrom-Json
+                        $json | Export-Csv -LiteralPath $filePath -NoTypeInformation -Force
+                        $isUpdated = $true
+                        Write-Host "    OK    $formatted" -ForegroundColor Green
+                    } else {
+                        Write-Warning "    No data block found for $formatted"
+                    }
+                } catch {
+                    Write-Warning "    Request failed for $formatted`: $_"
                 }
             }
         }
+    }
+    Write-Progress -Activity "Checking available report dates" -Completed
+}
 
-        ForEach($county in $csvFile){
-            (Get-Variable -name $($county.CountyName)).Value += "`"$baseName`",`"$($county.Democrats)`",`"$($county.Republicans)`",`"$($county.Green)`",`"$($county.Constitution)`",`"$($county.Libertarians)`",`"$($county.Unaffiliated)`",`"$($county.White)`",`"$($county.Black)`",`"$($county.AmericanIndian)`",`"$($county.NativeHawaiian)`",`"$($county.Other)`",`"$($county.Hispanic)`",`"$($county.Male)`",`"$($county.Female)`",`"$($county.UnDisclosedGender)`",`"$($county.NoLabels)`",`"$($county.Multiracial)`",`"$($county.Undesignated)`",`"$($county.Total)`"`r`n"
+# ── Phase 2: Aggregate per-county and statewide CSVs ────────────────────────
+if ($isUpdated) {
+    $csvHeader = '"Date","Democrats","Republicans","Green","Constitution","Libertarians","Unaffiliated","White","Black","American Indian","Native Hawaiian","Other","Hispanic","Male","Female","Undisclosed Gender","No Labels","Multiracial","Undesignated","Total"'
 
-            $total += $county.Total
-            $repubs += $county.Republicans
-            $dems += $county.Democrats
-            $unafil += $county.Unaffiliated
-            $green += $county.Green
-            $constitution += $county.Constitution
-            $libertarian += $county.Libertarians
-            $white += $county.White
-            $black += $county.Black
-            $americanIndian += $county.AmericanIndian
-            $nativeHawaiian += $county.NativeHawaiian
-            $other += $county.Other
-            $hispanic += $county.Hispanic
-            $male += $county.Male
-            $female += $county.Female
-            $undisclosedGender += $county.UnDisclosedGender
-            
-            $noLabels += $county.NoLabels
-            $multiracial += $county.Multiracial
-            $undesignated += $county.Undesignated
+    # Hashtable of StringBuilders replaces dynamic variables (avoids O(n²) string concat)
+    $countyBuilders = @{}
+    $countyDirPaths = @{}
+    $stateRows      = [System.Collections.Generic.List[string]]::new()
+
+    Write-Host "`nAggregating data files..." -ForegroundColor Yellow
+
+    $dataFiles = Get-ChildItem -Path "$directory\Data" -File -Filter "*.csv" |
+        Where-Object { $_.BaseName -ne "alpha" } |
+        Sort-Object {
+            [datetime]::ParseExact($_.BaseName, 'yyyy-MM-dd',
+                [System.Globalization.CultureInfo]::InvariantCulture)
         }
-        
-        $exportCsv += "`"$baseName`",`"$dems`",`"$repubs`",`"$green`",`"$constitution`",`"$libertarian`",`"$unafil`",`"$white`",`"$black`",`"$americanIndian`",`"$nativeHawaiian`",`"$other`",`"$hispanic`",`"$male`",`"$female`",`"$undisclosedGender`",`"$noLabels`",`"$multiracial`",`"$undesignated`",`"$total`"`r`n"
-  
-       
-    }
-    $directories = Get-ChildItem –Path "$directory\Data" -Directory 
 
-    foreach ($county in $directories){
-    $content = (Get-Variable -name $county).Value
-    if (Test-Path "$directory\Data\$county\$county.csv"){
-        Remove-Item "$directory\Data\$county\$county.csv"
+    $totalFiles = $dataFiles.Count
+    $fileIndex  = 0
+
+    foreach ($file in $dataFiles) {
+        $fileIndex++
+        $baseName = $file.BaseName
+        Write-Progress -Activity "Aggregating" `
+            -Status "$baseName  ($fileIndex / $totalFiles)" `
+            -PercentComplete ($fileIndex / $totalFiles * 100)
+
+        $csvRows = Import-Csv -LiteralPath $file.FullName
+
+        # Initialise county builder/directory on first encounter
+        foreach ($row in $csvRows) {
+            $cn = $row.CountyName
+            if (-not $countyBuilders.ContainsKey($cn)) {
+                $sb = [System.Text.StringBuilder]::new()
+                $sb.AppendLine($csvHeader) | Out-Null
+                $countyBuilders[$cn] = $sb
+
+                $countyDir = "$directory\Data\$cn"
+                $countyDirPaths[$cn] = $countyDir
+                if (-not (Test-Path $countyDir)) {
+                    New-Item -Force -Path $countyDir -ItemType Directory | Out-Null
+                    Write-Host "  DIR   $cn" -ForegroundColor DarkCyan
+                }
+            }
+        }
+
+        # Accumulate statewide totals while building per-county rows
+        $tTotal=$tDems=$tRepubs=$tGreen=$tConst=$tLib=$tUnafil=0
+        $tWhite=$tBlack=$tAI=$tNH=$tOther=$tHisp=0
+        $tMale=$tFemale=$tUGender=$tNoLabels=$tMulti=$tUndes=0
+
+        foreach ($row in $csvRows) {
+            $cn = $row.CountyName
+            $countyBuilders[$cn].AppendLine(
+                "`"$baseName`",`"$($row.Democrats)`",`"$($row.Republicans)`",`"$($row.Green)`",`"$($row.Constitution)`",`"$($row.Libertarians)`",`"$($row.Unaffiliated)`",`"$($row.White)`",`"$($row.Black)`",`"$($row.AmericanIndian)`",`"$($row.NativeHawaiian)`",`"$($row.Other)`",`"$($row.Hispanic)`",`"$($row.Male)`",`"$($row.Female)`",`"$($row.UnDisclosedGender)`",`"$($row.NoLabels)`",`"$($row.Multiracial)`",`"$($row.Undesignated)`",`"$($row.Total)`""
+            ) | Out-Null
+
+            $tTotal    += [long]$row.Total;           $tDems    += [long]$row.Democrats
+            $tRepubs   += [long]$row.Republicans;     $tGreen   += [long]$row.Green
+            $tConst    += [long]$row.Constitution;    $tLib     += [long]$row.Libertarians
+            $tUnafil   += [long]$row.Unaffiliated;    $tWhite   += [long]$row.White
+            $tBlack    += [long]$row.Black;           $tAI      += [long]$row.AmericanIndian
+            $tNH       += [long]$row.NativeHawaiian;  $tOther   += [long]$row.Other
+            $tHisp     += [long]$row.Hispanic;        $tMale    += [long]$row.Male
+            $tFemale   += [long]$row.Female;          $tUGender += [long]$row.UnDisclosedGender
+            $tNoLabels += [long]$row.NoLabels;        $tMulti   += [long]$row.Multiracial
+            $tUndes    += [long]$row.Undesignated
+        }
+
+        $stateRows.Add("`"$baseName`",`"$tDems`",`"$tRepubs`",`"$tGreen`",`"$tConst`",`"$tLib`",`"$tUnafil`",`"$tWhite`",`"$tBlack`",`"$tAI`",`"$tNH`",`"$tOther`",`"$tHisp`",`"$tMale`",`"$tFemale`",`"$tUGender`",`"$tNoLabels`",`"$tMulti`",`"$tUndes`",`"$tTotal`"")
     }
-    Set-Content -Path "$directory\Data\$county\$county.csv" -Value $content -Force
+    Write-Progress -Activity "Aggregating" -Completed
+
+    # Write per-county CSVs
+    Write-Host "`nWriting county files..." -ForegroundColor Yellow
+    foreach ($cn in $countyBuilders.Keys) {
+        Set-Content -Path "$($countyDirPaths[$cn])\$cn.csv" `
+            -Value $countyBuilders[$cn].ToString() -Force
+    }
+
+    # Write statewide alpha.csv
+    $alphaContent = ($csvHeader, ($stateRows -join [Environment]::NewLine)) -join [Environment]::NewLine
+    Set-Content -Path "$directory\Data\alpha.csv" -Value $alphaContent -Force
+    Write-Host "alpha.csv written  ($($stateRows.Count) date entries)" -ForegroundColor Green
 }
 
-    Set-Content -Path "$directory\Data\alpha.csv" -Value $exportCsv -Force
-}
-if ($isUpdated){
+# ── Phase 3: Commit and push ─────────────────────────────────────────────────
+if ($isUpdated) {
+    Write-Host "`nCommitting to GitHub..." -ForegroundColor Yellow
     Set-Location $directory
-    Write-Host 'Updating Repository'
-    &git add . | Out-Null
-    &git commit -m data | Out-Null
-    &git push -u origin main | Out-Null
+    &git add .        2>&1 | Out-Null
+    &git commit -m "data" 2>&1 | Out-Null
+
+    # Merge stderr->stdout so PowerShell doesn't misclassify git's
+    # informational remote-tracking lines as error records.
+    &git push -u origin main 2>&1 | ForEach-Object {
+        if ($_ -is [System.Management.Automation.ErrorRecord]) {
+            Write-Host $_.Exception.Message -ForegroundColor DarkGray
+        } else {
+            Write-Host $_
+        }
+    }
+    Write-Host "`nRepository updated successfully." -ForegroundColor Green
 }
