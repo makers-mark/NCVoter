@@ -92,6 +92,31 @@ function Get-ResultsRowsFromHtml {
     throw "No supported data payload found in Results HTML."
 }
 
+function Get-CountyRows {
+    param(
+        [Parameter(Mandatory)]
+        [object[]]$Rows
+    )
+
+    $seen    = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+    $cleaned = [System.Collections.Generic.List[object]]::new()
+
+    foreach ($row in $Rows) {
+        $countyName = ([string]$row.CountyName).Trim()
+
+        # Some recent payloads include summary rows that should not be treated as counties.
+        if (-not $countyName -or $countyName -match '^(Totals?|Statewide)$') {
+            continue
+        }
+
+        if ($seen.Add($countyName)) {
+            $cleaned.Add($row)
+        }
+    }
+
+    return $cleaned
+}
+
 # ── Phase 1: Download missing date CSVs ─────────────────────────────────────
 if (-not $debug) {
     $session           = New-Object Microsoft.PowerShell.Commands.WebRequestSession
@@ -145,6 +170,7 @@ if (-not $debug) {
                 -Headers    $dataPageHeaders
 
             $rows = Get-ResultsRowsFromHtml -ResultsHtml $response.Content
+            $rows = Get-CountyRows -Rows $rows
             $rows | Export-Csv -LiteralPath $filePath -NoTypeInformation -Force
             $isUpdated = $true
             Write-Host "    OK    $formatted" -ForegroundColor Green
@@ -184,6 +210,7 @@ if ($isUpdated) {
             -PercentComplete ($fileIndex / $totalFiles * 100)
 
         $csvRows = Import-Csv -LiteralPath $file.FullName
+        $csvRows = Get-CountyRows -Rows $csvRows
 
         # Initialise county builder/directory on first encounter
         foreach ($row in $csvRows) {
