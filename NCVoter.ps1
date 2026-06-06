@@ -43,64 +43,113 @@ $dataPageHeaders = @{
     "upgrade-insecure-requests" = "1"
 }
 
+function Get-AvailableReportDates {
+    param(
+        [Parameter(Mandatory)]
+        [string]$SearchHtml
+    )
+
+    $matches = [regex]::Matches(
+        $SearchHtml,
+        '<option\s+value="(?<date>\d{2}/\d{2}/\d{4})"[^>]*>',
+        [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
+    )
+
+    $seen  = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+    $dates = [System.Collections.Generic.List[string]]::new()
+
+    foreach ($m in $matches) {
+        $dateText = $m.Groups['date'].Value
+        if ($seen.Add($dateText)) {
+            $dates.Add($dateText)
+        }
+    }
+
+    return $dates
+}
+
+function Get-ResultsRowsFromHtml {
+    param(
+        [Parameter(Mandatory)]
+        [string]$ResultsHtml
+    )
+
+    $rxOptions = [System.Text.RegularExpressions.RegexOptions]::IgnoreCase -bor
+        [System.Text.RegularExpressions.RegexOptions]::Singleline
+
+    # Legacy payload format used by the previous site version.
+    $legacy = [regex]::Match($ResultsHtml, 'var\s+data\s*=\s*(\[[\s\S]*?\]);', $rxOptions)
+    if ($legacy.Success) {
+        return ($legacy.Groups[1].Value | ConvertFrom-Json)
+    }
+
+    # Current Kendo payload is embedded in grid config as "data":{"Data":[...],"total":...}
+    $modern = [regex]::Match($ResultsHtml, '"Data"\s*:\s*(\[[\s\S]*?\])\s*,\s*"total"', $rxOptions)
+    if ($modern.Success) {
+        return ($modern.Groups[1].Value | ConvertFrom-Json)
+    }
+
+    throw "No supported data payload found in Results HTML."
+}
+
 # ── Phase 1: Download missing date CSVs ─────────────────────────────────────
 if (-not $debug) {
-    $startYear = 2004
-    $endYear   = (Get-Date).Year + 1
-    $yearSpan  = $endYear - $startYear
+    $session           = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+    $session.UserAgent = $userAgent
 
-    for ([int]$year = $startYear; $year -le $endYear; $year++) {
-        $pct = [int](($year - $startYear) / $yearSpan * 100)
-        Write-Progress -Activity "Checking available report dates" -Status "Year $year" -PercentComplete $pct
+    try {
+        $searchResponse = Invoke-WebRequest -UseBasicParsing `
+            -Uri "https://vt.ncsbe.gov/RegStat/" `
+            -WebSession $session `
+            -Headers $dataPageHeaders
+    } catch {
+        throw "Could not retrieve report date list from RegStat page: $_"
+    }
 
-        $session           = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-        $session.UserAgent = $userAgent
+    $availableDates = Get-AvailableReportDates -SearchHtml $searchResponse.Content
+    if (-not $availableDates -or $availableDates.Count -eq 0) {
+        throw "No report dates were found on the RegStat page."
+    }
 
-        try {
-            $datesAvailable = Invoke-WebRequest -UseBasicParsing `
-                -Uri     "https://vt.ncsbe.gov/RegStat/GetLookupReportDates/" `
-                -Method  POST `
-                -WebSession $session `
-                -Headers $dateApiHeaders `
-                -ContentType "application/x-www-form-urlencoded; charset=UTF-8" `
-                -Body    "ReportYear=$year" | ConvertFrom-Json
-        } catch {
-            Write-Warning "Could not retrieve dates for $year`: $_"
+    $totalDates = $availableDates.Count
+    $dateIndex  = 0
+
+    foreach ($dateText in $availableDates) {
+        $dateIndex++
+        $pct = [int](($dateIndex / $totalDates) * 100)
+        Write-Progress -Activity "Checking available report dates" -Status "$dateText ($dateIndex / $totalDates)" -PercentComplete $pct
+
+        # Reformat MM/dd/yyyy -> yyyy-MM-dd
+        $formatted = [datetime]::ParseExact(
+            $dateText,
+            'MM/dd/yyyy',
+            [System.Globalization.CultureInfo]::InvariantCulture
+        ).ToString('yyyy-MM-dd')
+
+        $filePath  = "$directory\Data\$formatted.csv"
+
+        if (Test-Path $filePath) {
+            Write-Host "  SKIP  $formatted" -ForegroundColor DarkGray
             continue
         }
 
-        foreach ($dateText in $datesAvailable.Text) {
-            # Reformat MM/dd/yyyy -> yyyy-MM-dd
-            $formatted = $dateText -replace '^(\d{2})/(\d{2})/(\d{4})$', '$3-$1-$2'
-            $filePath  = "$directory\Data\$formatted.csv"
+        Write-Host "  FETCH $formatted" -ForegroundColor Cyan
+        $urlDate     = [Uri]::EscapeDataString($formatted)
+        $dataSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+        $dataSession.UserAgent = $userAgent
 
-            if (Test-Path $filePath) {
-                Write-Host "  SKIP  $formatted" -ForegroundColor DarkGray
-            } else {
-                Write-Host "  FETCH $formatted" -ForegroundColor Cyan
+        try {
+            $response = Invoke-WebRequest -UseBasicParsing `
+                -Uri        "https://vt.ncsbe.gov/RegStat/Results?date=$urlDate" `
+                -WebSession $dataSession `
+                -Headers    $dataPageHeaders
 
-                $urlDate     = [Uri]::EscapeDataString($dateText)
-                $dataSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-                $dataSession.UserAgent = $userAgent
-
-                try {
-                    $response = Invoke-WebRequest -UseBasicParsing `
-                        -Uri        "https://vt.ncsbe.gov/RegStat/Results/?date=$urlDate" `
-                        -WebSession $dataSession `
-                        -Headers    $dataPageHeaders
-
-                    if ($response.Content -match 'var data = \[.*') {
-                        $json = $Matches[0].Replace("var data = ", "") | ConvertFrom-Json
-                        $json | Export-Csv -LiteralPath $filePath -NoTypeInformation -Force
-                        $isUpdated = $true
-                        Write-Host "    OK    $formatted" -ForegroundColor Green
-                    } else {
-                        Write-Warning "    No data block found for $formatted"
-                    }
-                } catch {
-                    Write-Warning "    Request failed for $formatted`: $_"
-                }
-            }
+            $rows = Get-ResultsRowsFromHtml -ResultsHtml $response.Content
+            $rows | Export-Csv -LiteralPath $filePath -NoTypeInformation -Force
+            $isUpdated = $true
+            Write-Host "    OK    $formatted" -ForegroundColor Green
+        } catch {
+            Write-Warning "    Request failed for $formatted`: $_"
         }
     }
     Write-Progress -Activity "Checking available report dates" -Completed

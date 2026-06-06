@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no">
+    <title>Voter Registration Statistics</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" />
+<meta name="x-stylesheet-fallback-test" content="" class="visually-hidden" /><script>!function(a,b,c,d){var e,f=document,g=f.getElementsByTagName("SCRIPT"),h=g[g.length-1].previousElementSibling,i=f.defaultView&&f.defaultView.getComputedStyle?f.defaultView.getComputedStyle(h):h.currentStyle;if(i&&i[a]!==b)for(e=0;e<c.length;e++)f.write('<link href="'+c[e]+'" '+d+"/>")}("position","absolute",["/lib/bootstrap/dist/css/bootstrap.min.css"], "rel=\u0022stylesheet\u0022 ");</script>
+    <link rel="icon" href="/img/favicon.ico" />
+    <link href="https://kendo.cdn.telerik.com/themes/12.0.0/default/default-ocean-blue.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<meta name="x-stylesheet-fallback-test" content="" class="fa-solid" /><script>!function(a,b,c,d){var e,f=document,g=f.getElementsByTagName("SCRIPT"),h=g[g.length-1].previousElementSibling,i=f.defaultView&&f.defaultView.getComputedStyle?f.defaultView.getComputedStyle(h):h.currentStyle;if(i&&i[a]!==b)for(e=0;e<c.length;e++)f.write('<link href="'+c[e]+'" '+d+"/>")}("font-weight","900",["/lib/font-awesome/css/font-awesome.min.css"], "rel=\u0022stylesheet\u0022 ");</script>
+    <link rel="stylesheet" href="/css/site.css?v=SriC2o3ShQD-CFELtlmWCTkoDZkArDHWcrW05wvyp6E" />
+    <link rel="stylesheet" href="/VoterTools.styles.css?v=gpTXNPeln5MSpOsZQyFAkRTe86HoFm-mdzmMysfvf5s" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>(window.jQuery||document.write("\u003Cscript src=\u0022/lib/jquery/jquery.min.js\u0022\u003E\u003C/script\u003E"));</script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>(window.JSZip||document.write("\u003Cscript src=\u0022/lib/jszip/jszip.min.js\u0022\u003E\u003C/script\u003E"));</script>
+    <script src="https://cdn.kendostatic.com/2025.3.812/js/kendo.all.min.js"></script>
+<script>(window.kendo && window.kendo.ui||document.write("\u003Cscript src=\u0022/lib/progress/kendo-ui/umd/kendo.all.min.js\u0022\u003E\u003C/script\u003E"));</script>
+    <script src="https://cdn.kendostatic.com/2025.3.812/js/kendo.aspnetmvc.min.js"></script>
+<script>(window.kendo && window.kendo.aspnetmvc||document.write("\u003Cscript src=\u0022/lib/progress/kendo-ui/umd/kendo.aspnetmvc.min.js\u0022\u003E\u003C/script\u003E"));</script>
+    
+<script type="text/javascript">!function(T,l,y){var S=T.location,k="script",D="instrumentationKey",C="ingestionendpoint",I="disableExceptionTracking",E="ai.device.",b="toLowerCase",w="crossOrigin",N="POST",e="appInsightsSDK",t=y.name||"appInsights";(y.name||T[e])&&(T[e]=t);var n=T[t]||function(d){var g=!1,f=!1,m={initialize:!0,queue:[],sv:"5",version:2,config:d};function v(e,t){var n={},a="Browser";return n[E+"id"]=a[b](),n[E+"type"]=a,n["ai.operation.name"]=S&&S.pathname||"_unknown_",n["ai.internal.sdkVersion"]="javascript:snippet_"+(m.sv||m.version),{time:function(){var e=new Date;function t(e){var t=""+e;return 1===t.length&&(t="0"+t),t}return e.getUTCFullYear()+"-"+t(1+e.getUTCMonth())+"-"+t(e.getUTCDate())+"T"+t(e.getUTCHours())+":"+t(e.getUTCMinutes())+":"+t(e.getUTCSeconds())+"."+((e.getUTCMilliseconds()/1e3).toFixed(3)+"").slice(2,5)+"Z"}(),iKey:e,name:"Microsoft.ApplicationInsights."+e.replace(/-/g,"")+"."+t,sampleRate:100,tags:n,data:{baseData:{ver:2}}}}var h=d.url||y.src;if(h){function a(e){var t,n,a,i,r,o,s,c,u,p,l;g=!0,m.queue=[],f||(f=!0,t=h,s=function(){var e={},t=d.connectionString;if(t)for(var n=t.split(";"),a=0;a<n.length;a++){var i=n[a].split("=");2===i.length&&(e[i[0][b]()]=i[1])}if(!e[C]){var r=e.endpointsuffix,o=r?e.location:null;e[C]="https://"+(o?o+".":"")+"dc."+(r||"services.visualstudio.com")}return e}(),c=s[D]||d[D]||"",u=s[C],p=u?u+"/v2/track":d.endpointUrl,(l=[]).push((n="SDK LOAD Failure: Failed to load Application Insights SDK script (See stack for details)",a=t,i=p,(o=(r=v(c,"Exception")).data).baseType="ExceptionData",o.baseData.exceptions=[{typeName:"SDKLoadFailed",message:n.replace(/\./g,"-"),hasFullStack:!1,stack:n+"\nSnippet failed to load ["+a+"] -- Telemetry is disabled\nHelp Link: https://go.microsoft.com/fwlink/?linkid=2128109\nHost: "+(S&&S.pathname||"_unknown_")+"\nEndpoint: "+i,parsedStack:[]}],r)),l.push(function(e,t,n,a){var i=v(c,"Message"),r=i.data;r.baseType="MessageData";var o=r.baseData;return o.message='AI (Internal): 99 message:"'+("SDK LOAD Failure: Failed to load Application Insights SDK script (See stack for details) ("+n+")").replace(/\"/g,"")+'"',o.properties={endpoint:a},i}(0,0,t,p)),function(e,t){if(JSON){var n=T.fetch;if(n&&!y.useXhr)n(t,{method:N,body:JSON.stringify(e),mode:"cors"});else if(XMLHttpRequest){var a=new XMLHttpRequest;a.open(N,t),a.setRequestHeader("Content-type","application/json"),a.send(JSON.stringify(e))}}}(l,p))}function i(e,t){f||setTimeout(function(){!t&&m.core||a()},500)}var e=function(){var n=l.createElement(k);n.src=h;var e=y[w];return!e&&""!==e||"undefined"==n[w]||(n[w]=e),n.onload=i,n.onerror=a,n.onreadystatechange=function(e,t){"loaded"!==n.readyState&&"complete"!==n.readyState||i(0,t)},n}();y.ld<0?l.getElementsByTagName("head")[0].appendChild(e):setTimeout(function(){l.getElementsByTagName(k)[0].parentNode.appendChild(e)},y.ld||0)}try{m.cookie=l.cookie}catch(p){}function t(e){for(;e.length;)!function(t){m[t]=function(){var e=arguments;g||m.queue.push(function(){m[t].apply(m,e)})}}(e.pop())}var n="track",r="TrackPage",o="TrackEvent";t([n+"Event",n+"PageView",n+"Exception",n+"Trace",n+"DependencyData",n+"Metric",n+"PageViewPerformance","start"+r,"stop"+r,"start"+o,"stop"+o,"addTelemetryInitializer","setAuthenticatedUserContext","clearAuthenticatedUserContext","flush"]),m.SeverityLevel={Verbose:0,Information:1,Warning:2,Error:3,Critical:4};var s=(d.extensionConfig||{}).ApplicationInsightsAnalytics||{};if(!0!==d[I]&&!0!==s[I]){var c="onerror";t(["_"+c]);var u=T[c];T[c]=function(e,t,n,a,i){var r=u&&u(e,t,n,a,i);return!0!==r&&m["_"+c]({message:e,url:t,lineNumber:n,columnNumber:a,error:i}),r},d.autoExceptionInstrumented=!0}return m}(y.cfg);function a(){y.onInit&&y.onInit(n)}(T[t]=n).queue&&0===n.queue.length?(n.queue.push(a),n.trackPageView({})):a()}(window,document,{
+src: "https://js.monitor.azure.com/scripts/b/ai.2.min.js", // The SDK URL Source
+crossOrigin: "anonymous", 
+cfg: { // Application Insights Configuration
+    connectionString: 'InstrumentationKey=eb638385-ba1a-f95b-9c93-dacb136132ba;EndpointSuffix=applicationinsights.us;IngestionEndpoint=https://usgovvirginia-1.in.applicationinsights.azure.us/;LiveEndpoint=https://usgovvirginia.livediagnostics.monitor.azure.us/;AADAudience=https://monitor.azure.us/;ApplicationId=219e0eee-a6c3-4980-ba82-f3cb64603a95'
+}});</script></head>
+<body class="k-content" style=" background-color: #f3f3f4;">
+<div b-ct5k6qwudn class="border-bottom white-bg" style="white-space: nowrap;">
+        <nav b-ct5k6qwudn class="navbar navbar-static-top" role="navigation" style="padding: 5px;">
+            <div b-ct5k6qwudn class="navbar-header">
+                <button b-ct5k6qwudn id="button_menu"
+                        aria-controls="navbar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation menu"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbar"
+                        class="navbar-toggle collapsed"
+                        type="button">
+                    <i b-ct5k6qwudn class="fa fa-reorder" aria-hidden="true"></i>
+                </button>
+                <a b-ct5k6qwudn href="https://www.ncsbe.gov/"><img style="padding-right: 12px;" src="/img/logo_sbe_small.png" alt="North Carolina State Board of Elections Logo" /></a>
+            </div>
+            <div b-ct5k6qwudn class="navbar-collapse collapse navbar-right" id="navbar" style="width:224px;">
+                <ul b-ct5k6qwudn id="menu_mobile" class="nav navbar-nav" style="float:right;">
+                    <li b-ct5k6qwudn class="dropdown hidden-xs" id="headerMenuDropdown">
+                        <a b-ct5k6qwudn id="applicationAnchor" aria-expanded="false" aria-haspopup="true" role="button" class="dropdown-toggle" data-bs-toggle="dropdown" href="#">Applications<span b-ct5k6qwudn class="caret"></span></a>
+                        <ul b-ct5k6qwudn id="menu_desktop" class="dropdown-menu" aria-labelledby="applicationAnchor" aria-expanded="false">
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+                <div b-ct5k6qwudn class="text-center" style="white-space: normal;">
+                    <h1 b-ct5k6qwudn style="margin-top: 12px;">Voter Registration Statistics</h1>
+                </div>
+        </nav>
+       
+    </div>
+
+    <main b-ct5k6qwudn>
+        <div b-ct5k6qwudn id="mainContent" class="wrapper-content">
+            <link rel="stylesheet" href="/css/RegistrationStatistics/RegistrationStatisticsSearch.css?v=jGi24IietoPj9XyEpSm95KUhzbEr7rqvl-AFgTaroOM" />
+<link rel="stylesheet" href="/css/RegistrationStatistics/RegistrationStatisticsResults.css?v=e7VR1dthh6YeGjrt-oULvhbEUog_cuCbn44hl_S4u98" />
+<div class="row" style="margin-left:0;margin-right:0;">
+<div id="voterRegistrationStatisticsSearchResultsSection" class="col-xs-12 col-sm-12 col-md-12 preload-hidden" style="padding-left:0;padding-right:0;">
+<div class="col-md-4 col-sm-6 col-xs-12 col-md-offset-4 col-sm-offset-3 mx-auto">
+    <div class="ibox text-center">
+        <div>
+            <button class="btn button-search" id="btnNewSearch" onclick="return newSearch();" style="background-color:#1C84C6;color:#FFFFFF;border-color:#1C84C6;" type="button">New Search</button>
+        </div>
+    </div>
+</div>
+<section class="ibox" id="searchResultsRegion" tabindex="-1">
+<div class="ibox-content p-sm" id="searchResultsContent" aria-hidden="false">
+    <div id="resultsGridContainer">
+        <div id="desktopView">
+            <h2 class="center-text">Reporting Period: 01/03/2026</h2>
+            <div id="results-grid" name="results-grid"></div><script>(typeof KendoLicensing === 'object' && KendoLicensing.setScriptKey('141j041f611f063e0837023e133i0i490g310c3a18445h425d3857395g3f5k3e5f3d603j590k5c14510f3j0f1e031c0i20162513223g23004i072806211a1i365e464f072c032419251420395f161e1258325d405f445h445b400f2339275i0j582c412i5a153h0342224h40155a2g3a00552i09511k4c421a5a1c3e254k2k381h58024h275d1557205k39284k2h5g30472c4627522i094f2f511b142d3j214d0b5047094h22371k31113425542e093c0f47511b4i253727442i5b13562b4i25143h2k5j0g5a184b29431a3a1c34003a2g5a19395j1a442a3e0k3d19550c2k0a4f22370326612h603e005h2h0a35003a2g5a183c2752295g2950204f41175d2h0f3311385b2g5k29461132165a2j502e3d023724380a4f3k4i2i5f2j0c310k41234f0938244f1f50490j400d5h2a3e045e2k3k214702264i0j57330k4a04380e2e5817423058163b2j57153k4e245h1j340c390d5g2d572f0c330h1b3a0g5h2i3i183b175b2g430229600441254d2c53003e1f55435g2a033103591e534527025e13610i3c2g0b510d4e470c5h2e550d5j3e1d32275e0k5h0i304a2b5623183d304j1k490h3c1b0j4e221658034g0i522k561a5511330f315e25520i5c0d4k1f401b59310c55065c2a023f1c3h1i5821311h4c21452k5c2i5309330b4j195h3c0550460d2k350k1f57093e0c4c27003d0443264h205j1e3j114e3h0h420c5g3d5g085f1c114721441d3103472b402601550k37215h1d56330436083f2k3d1k482a380b330f39285j0k5a1348203k0a56012b462i4224400g461k4d0f5c014f1j3a1i5k0e4855173h2e59331f345b244b0e421h5316541d35005b075c331j0559235j20074k462j5b1421462d3g2145273k005h1k0g1b341j4f004g0i520756064c1e0g1c500442121i5728321f4h2c5c16484g2d365k300b350k3f2g3g03571k52440c3e1a5405482j0a362a045c0f54022g551a4i07264d1e412k5e105310385e17554623521k1a3a115e2c0k3a0k'));window._wrappersMetadata = Object.freeze({"name":"@progress/kendo-ui","productCode":"UIASPCORE","productName":"Telerik UI for ASP.NET Core","version":"2026.1.212","licensingDocsUrl":"https://www.telerik.com/aspnet-core-ui/documentation/installation/activating-your-license/setting-up-your-license"});kendo.syncReady(function(){jQuery("#results-grid").kendoGrid({"dataBound":onGridDataBound,"navigatable":true,"sortable":{"allowUnsort":false,"mode":"single"},"columns":[{"title":"County","headerAttributes":{"class":"rs-header rs-header--single"},"width":"11%","field":"CountyName","filterable":{"checkAll":false},"encoded":true},{"title":"Democratic","headerAttributes":{"class":"rs-header rs-header--single"},"width":"8%","resizable":false,"field":"Democrats","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Green","headerAttributes":{"class":"rs-header rs-header--single"},"width":"5%","resizable":false,"field":"Green","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Libertarian","headerAttributes":{"class":"rs-header rs-header--single"},"width":"8%","resizable":false,"field":"Libertarians","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Republican","headerAttributes":{"class":"rs-header rs-header--single"},"width":"9%","resizable":false,"field":"Republicans","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Unaffiliated","headerAttributes":{"class":"rs-header rs-header--single"},"width":"9%","resizable":false,"field":"Unaffiliated","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"White","headerAttributes":{"class":"rs-header rs-header--single"},"width":"7%","resizable":false,"field":"White","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Black","headerAttributes":{"class":"rs-header rs-header--single"},"width":"7%","resizable":false,"field":"Black","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"American Indian/Alaska Native","headerAttributes":{"class":"rs-header rs-header--multi"},"width":"7%","resizable":false,"field":"AmericanIndian","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Asian","headerAttributes":{"class":"rs-header rs-header--single"},"width":"6%","resizable":false,"field":"Asian","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Native Hawaiian/Other Pacific","headerAttributes":{"class":"rs-header rs-header--multi"},"width":"5%","resizable":false,"field":"NativeHawaiian","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Multiracial","headerAttributes":{"class":"rs-header rs-header--single"},"width":"7%","resizable":false,"field":"Multiracial","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Other","headerAttributes":{"class":"rs-header rs-header--single"},"width":"7%","resizable":false,"field":"Other","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Undesignated","headerAttributes":{"class":"rs-header rs-header--single"},"width":"9%","resizable":false,"field":"Undesignated","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Hispanic","headerAttributes":{"class":"rs-header rs-header--single"},"width":"7%","resizable":false,"field":"Hispanic","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Male","headerAttributes":{"class":"rs-header rs-header--single"},"width":"6%","resizable":false,"field":"Male","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Female","headerAttributes":{"class":"rs-header rs-header--single"},"width":"6%","resizable":false,"field":"Female","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true},{"title":"Total","headerAttributes":{"class":"rs-header rs-header--single"},"width":"7%","resizable":false,"field":"Total","format":"{0:N0}","filterable":{"checkAll":false},"encoded":true}],"scrollable":false,"dataSource":{"type":(function(){if(kendo.data.transports['aspnetmvc-ajax']){return 'aspnetmvc-ajax';} else{throw new Error('The kendo.aspnetmvc.min.js script is not included.');}})(),"transport":{"read":{"url":""},"prefix":""},"schema":{"data":"Data","total":"Total","errors":"Errors","model":{"fields":{"CountyName":{"type":"string"},"Democrats":{"type":"number"},"Republicans":{"type":"number"},"Libertarians":{"type":"number"},"Green":{"type":"number"},"NoLabels":{"type":"number"},"Constitution":{"type":"number"},"JusticeForAll":{"type":"number"},"WeThePeople":{"type":"number"},"Unaffiliated":{"type":"number"},"White":{"type":"number"},"Black":{"type":"number"},"AmericanIndian":{"type":"number"},"NativeHawaiian":{"type":"number"},"Asian":{"type":"number"},"Multiracial":{"type":"number"},"Undesignated":{"type":"number"},"Other":{"type":"number"},"Hispanic":{"type":"number"},"Male":{"type":"number"},"Female":{"type":"number"},"UnDisclosedGender":{"type":"number"},"Total":{"type":"number"},"AppVersion":{"type":"number"},"SelectCountyId":{"type":"number"}}}},"data":{"Data":[{"CountyName":"ALAMANCE","Democrats":36505,"Republicans":38111,"Libertarians":635,"Green":51,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":43332,"White":75553,"Black":24330,"AmericanIndian":262,"NativeHawaiian":19,"Asian":1306,"Multiracial":643,"Undesignated":10156,"Other":6365,"Hispanic":7525,"Male":49112,"Female":59256,"UnDisclosedGender":10266,"Total":118634,"AppVersion":1,"SelectCountyId":0},{"CountyName":"ALEXANDER","Democrats":3693,"Republicans":12740,"Libertarians":118,"Green":4,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":9142,"White":22296,"Black":940,"AmericanIndian":32,"NativeHawaiian":1,"Asian":161,"Multiracial":37,"Undesignated":1742,"Other":488,"Hispanic":585,"Male":11538,"Female":12309,"UnDisclosedGender":1850,"Total":25697,"AppVersion":1,"SelectCountyId":0},{"CountyName":"ALLEGHANY","Democrats":1537,"Republicans":3611,"Libertarians":37,"Green":1,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":2981,"White":7153,"Black":79,"AmericanIndian":11,"NativeHawaiian":0,"Asian":8,"Multiracial":13,"Undesignated":721,"Other":182,"Hispanic":259,"Male":3643,"Female":3858,"UnDisclosedGender":666,"Total":8167,"AppVersion":1,"SelectCountyId":0},{"CountyName":"ANSON","Democrats":7638,"Republicans":3416,"Libertarians":54,"Green":6,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":4743,"White":6689,"Black":6078,"AmericanIndian":34,"NativeHawaiian":2,"Asian":89,"Multiracial":25,"Undesignated":2674,"Other":266,"Hispanic":212,"Male":5918,"Female":7192,"UnDisclosedGender":2747,"Total":15857,"AppVersion":1,"SelectCountyId":0},{"CountyName":"ASHE","Democrats":3402,"Republicans":9591,"Libertarians":98,"Green":5,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":7519,"White":18756,"Black":114,"AmericanIndian":27,"NativeHawaiian":2,"Asian":58,"Multiracial":17,"Undesignated":1368,"Other":273,"Hispanic":359,"Male":9210,"Female":10087,"UnDisclosedGender":1318,"Total":20615,"AppVersion":1,"SelectCountyId":0},{"CountyName":"AVERY","Democrats":1128,"Republicans":7062,"Libertarians":66,"Green":4,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":4028,"White":11052,"Black":55,"AmericanIndian":17,"NativeHawaiian":0,"Asian":29,"Multiracial":14,"Undesignated":972,"Other":149,"Hispanic":140,"Male":5468,"Female":5926,"UnDisclosedGender":894,"Total":12288,"AppVersion":1,"SelectCountyId":0},{"CountyName":"BEAUFORT","Democrats":9076,"Republicans":13231,"Libertarians":121,"Green":10,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":11086,"White":23548,"Black":6495,"AmericanIndian":38,"NativeHawaiian":3,"Asian":62,"Multiracial":51,"Undesignated":2500,"Other":827,"Hispanic":771,"Male":14183,"Female":16673,"UnDisclosedGender":2668,"Total":33524,"AppVersion":1,"SelectCountyId":0},{"CountyName":"BERTIE","Democrats":7000,"Republicans":1793,"Libertarians":41,"Green":1,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3417,"White":4561,"Black":6631,"AmericanIndian":16,"NativeHawaiian":1,"Asian":29,"Multiracial":15,"Undesignated":928,"Other":71,"Hispanic":52,"Male":5046,"Female":6265,"UnDisclosedGender":941,"Total":12252,"AppVersion":1,"SelectCountyId":0},{"CountyName":"BLADEN","Democrats":8159,"Republicans":5984,"Libertarians":75,"Green":11,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":8500,"White":12519,"Black":7053,"AmericanIndian":397,"NativeHawaiian":6,"Asian":27,"Multiracial":88,"Undesignated":2039,"Other":600,"Hispanic":665,"Male":9555,"Female":11378,"UnDisclosedGender":1796,"Total":22729,"AppVersion":1,"SelectCountyId":0},{"CountyName":"BRUNSWICK","Democrats":27480,"Republicans":58832,"Libertarians":723,"Green":40,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":56168,"White":119100,"Black":9229,"AmericanIndian":412,"NativeHawaiian":12,"Asian":649,"Multiracial":235,"Undesignated":10636,"Other":2970,"Hispanic":2678,"Male":60782,"Female":70236,"UnDisclosedGender":12225,"Total":143243,"AppVersion":1,"SelectCountyId":0},{"CountyName":"BUNCOMBE","Democrats":71063,"Republicans":44859,"Libertarians":1544,"Green":243,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":95012,"White":175190,"Black":10206,"AmericanIndian":363,"NativeHawaiian":44,"Asian":1675,"Multiracial":1000,"Undesignated":17752,"Other":6491,"Hispanic":6196,"Male":90532,"Female":105588,"UnDisclosedGender":16601,"Total":212721,"AppVersion":1,"SelectCountyId":0},{"CountyName":"BURKE","Democrats":11366,"Republicans":24973,"Libertarians":356,"Green":22,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":23188,"White":49801,"Black":3059,"AmericanIndian":96,"NativeHawaiian":2,"Asian":975,"Multiracial":129,"Undesignated":4188,"Other":1655,"Hispanic":1673,"Male":26176,"Female":29129,"UnDisclosedGender":4600,"Total":59905,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CABARRUS","Democrats":43187,"Republicans":51888,"Libertarians":1082,"Green":125,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":63451,"White":97095,"Black":32899,"AmericanIndian":427,"NativeHawaiian":21,"Asian":4250,"Multiracial":698,"Undesignated":15702,"Other":8641,"Hispanic":8715,"Male":66532,"Female":77838,"UnDisclosedGender":15363,"Total":159733,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CALDWELL","Democrats":8659,"Republicans":27793,"Libertarians":343,"Green":18,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":18714,"White":45936,"Black":2530,"AmericanIndian":77,"NativeHawaiian":0,"Asian":208,"Multiracial":142,"Undesignated":5463,"Other":1171,"Hispanic":1360,"Male":24411,"Female":27109,"UnDisclosedGender":4007,"Total":55527,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CAMDEN","Democrats":1194,"Republicans":3396,"Libertarians":64,"Green":6,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3817,"White":6785,"Black":864,"AmericanIndian":8,"NativeHawaiian":2,"Asian":39,"Multiracial":16,"Undesignated":590,"Other":173,"Hispanic":84,"Male":3787,"Female":4039,"UnDisclosedGender":651,"Total":8477,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CARTERET","Democrats":8404,"Republicans":26634,"Libertarians":346,"Green":26,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":21468,"White":49152,"Black":2071,"AmericanIndian":101,"NativeHawaiian":7,"Asian":329,"Multiracial":122,"Undesignated":4180,"Other":916,"Hispanic":850,"Male":24687,"Female":27763,"UnDisclosedGender":4428,"Total":56878,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CASWELL","Democrats":5468,"Republicans":4759,"Libertarians":58,"Green":2,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":5222,"White":9693,"Black":4329,"AmericanIndian":24,"NativeHawaiian":1,"Asian":37,"Multiracial":48,"Undesignated":1099,"Other":278,"Hispanic":297,"Male":6713,"Female":7648,"UnDisclosedGender":1148,"Total":15509,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CATAWBA","Democrats":19580,"Republicans":51282,"Libertarians":676,"Green":52,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":45778,"White":90116,"Black":8955,"AmericanIndian":156,"NativeHawaiian":9,"Asian":2752,"Multiracial":317,"Undesignated":9463,"Other":5600,"Hispanic":5813,"Male":50761,"Female":56517,"UnDisclosedGender":10090,"Total":117368,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CHATHAM","Democrats":20890,"Republicans":14995,"Libertarians":308,"Green":29,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":27435,"White":46263,"Black":5792,"AmericanIndian":131,"NativeHawaiian":9,"Asian":1339,"Multiracial":249,"Undesignated":7235,"Other":2639,"Hispanic":2789,"Male":26064,"Female":30285,"UnDisclosedGender":7308,"Total":63657,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CHEROKEE","Democrats":2984,"Republicans":13046,"Libertarians":148,"Green":8,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":8258,"White":22669,"Black":250,"AmericanIndian":117,"NativeHawaiian":2,"Asian":101,"Multiracial":30,"Undesignated":968,"Other":307,"Hispanic":281,"Male":11550,"Female":12338,"UnDisclosedGender":556,"Total":24444,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CHOWAN","Democrats":3164,"Republicans":3236,"Libertarians":46,"Green":1,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3518,"White":6589,"Black":2552,"AmericanIndian":16,"NativeHawaiian":5,"Asian":18,"Multiracial":23,"Undesignated":623,"Other":139,"Hispanic":100,"Male":4348,"Female":5170,"UnDisclosedGender":447,"Total":9965,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CLAY","Democrats":1267,"Republicans":5059,"Libertarians":52,"Green":2,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3647,"White":9375,"Black":42,"AmericanIndian":16,"NativeHawaiian":0,"Asian":18,"Multiracial":9,"Undesignated":482,"Other":85,"Hispanic":101,"Male":4565,"Female":5007,"UnDisclosedGender":455,"Total":10027,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CLEVELAND","Democrats":18162,"Republicans":27593,"Libertarians":401,"Green":21,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":22579,"White":47367,"Black":12985,"AmericanIndian":95,"NativeHawaiian":8,"Asian":385,"Multiracial":213,"Undesignated":6251,"Other":1452,"Hispanic":1294,"Male":28918,"Female":33692,"UnDisclosedGender":6146,"Total":68756,"AppVersion":1,"SelectCountyId":0},{"CountyName":"COLUMBUS","Democrats":12201,"Republicans":11817,"Libertarians":123,"Green":7,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":12804,"White":22411,"Black":9922,"AmericanIndian":970,"NativeHawaiian":4,"Asian":59,"Multiracial":81,"Undesignated":2792,"Other":713,"Hispanic":684,"Male":15725,"Female":18469,"UnDisclosedGender":2758,"Total":36952,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CRAVEN","Democrats":18493,"Republicans":28752,"Libertarians":544,"Green":42,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":28059,"White":52967,"Black":13465,"AmericanIndian":178,"NativeHawaiian":8,"Asian":1295,"Multiracial":262,"Undesignated":4997,"Other":2718,"Hispanic":2422,"Male":32548,"Female":38278,"UnDisclosedGender":5064,"Total":75890,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CUMBERLAND","Democrats":82510,"Republicans":50683,"Libertarians":1751,"Green":155,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":83698,"White":84983,"Black":84883,"AmericanIndian":2396,"NativeHawaiian":125,"Asian":3666,"Multiracial":1952,"Undesignated":25550,"Other":15242,"Hispanic":14983,"Male":86624,"Female":107405,"UnDisclosedGender":24768,"Total":218797,"AppVersion":1,"SelectCountyId":0},{"CountyName":"CURRITUCK","Democrats":3019,"Republicans":10461,"Libertarians":205,"Green":5,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":10477,"White":20714,"Black":1176,"AmericanIndian":41,"NativeHawaiian":3,"Asian":129,"Multiracial":66,"Undesignated":1518,"Other":520,"Hispanic":306,"Male":10978,"Female":11643,"UnDisclosedGender":1546,"Total":24167,"AppVersion":1,"SelectCountyId":0},{"CountyName":"DARE","Democrats":6628,"Republicans":11374,"Libertarians":229,"Green":18,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":14135,"White":29201,"Black":530,"AmericanIndian":33,"NativeHawaiian":1,"Asian":123,"Multiracial":62,"Undesignated":1728,"Other":706,"Hispanic":429,"Male":14675,"Female":15957,"UnDisclosedGender":1752,"Total":32384,"AppVersion":1,"SelectCountyId":0},{"CountyName":"DAVIDSON","Democrats":20653,"Republicans":58882,"Libertarians":682,"Green":35,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":40806,"White":94236,"Black":11173,"AmericanIndian":258,"NativeHawaiian":7,"Asian":990,"Multiracial":265,"Undesignated":10188,"Other":3941,"Hispanic":4088,"Male":51988,"Female":58664,"UnDisclosedGender":10406,"Total":121058,"AppVersion":1,"SelectCountyId":0},{"CountyName":"DAVIE","Democrats":4441,"Republicans":17069,"Libertarians":151,"Green":14,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":11599,"White":27777,"Black":1938,"AmericanIndian":40,"NativeHawaiian":0,"Asian":153,"Multiracial":85,"Undesignated":2380,"Other":901,"Hispanic":1074,"Male":14714,"Female":16327,"UnDisclosedGender":2233,"Total":33274,"AppVersion":1,"SelectCountyId":0},{"CountyName":"DUPLIN","Democrats":9812,"Republicans":10618,"Libertarians":120,"Green":11,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":11335,"White":18580,"Black":7811,"AmericanIndian":60,"NativeHawaiian":3,"Asian":65,"Multiracial":123,"Undesignated":3243,"Other":2011,"Hispanic":2637,"Male":13480,"Female":15658,"UnDisclosedGender":2758,"Total":31896,"AppVersion":1,"SelectCountyId":0},{"CountyName":"DURHAM","Democrats":121816,"Republicans":22701,"Libertarians":1041,"Green":214,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":96711,"White":114513,"Black":71636,"AmericanIndian":570,"NativeHawaiian":45,"Asian":9367,"Multiracial":2524,"Undesignated":31665,"Other":12163,"Hispanic":13627,"Male":93962,"Female":119232,"UnDisclosedGender":29289,"Total":242483,"AppVersion":1,"SelectCountyId":0},{"CountyName":"EDGECOMBE","Democrats":19050,"Republicans":6935,"Libertarians":113,"Green":12,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":9213,"White":12125,"Black":18434,"AmericanIndian":66,"NativeHawaiian":3,"Asian":57,"Multiracial":92,"Undesignated":3810,"Other":736,"Hispanic":763,"Male":13675,"Female":17832,"UnDisclosedGender":3816,"Total":35323,"AppVersion":1,"SelectCountyId":0},{"CountyName":"FORSYTH","Democrats":94184,"Republicans":71426,"Libertarians":1597,"Green":179,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":102532,"White":159752,"Black":64425,"AmericanIndian":507,"NativeHawaiian":36,"Asian":3739,"Multiracial":1458,"Undesignated":26764,"Other":13237,"Hispanic":15593,"Male":109204,"Female":135052,"UnDisclosedGender":25662,"Total":269918,"AppVersion":1,"SelectCountyId":0},{"CountyName":"FRANKLIN","Democrats":16579,"Republicans":17717,"Libertarians":389,"Green":22,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":21213,"White":35129,"Black":12436,"AmericanIndian":143,"NativeHawaiian":6,"Asian":411,"Multiracial":184,"Undesignated":5150,"Other":2461,"Hispanic":2553,"Male":23313,"Female":26611,"UnDisclosedGender":5996,"Total":55920,"AppVersion":1,"SelectCountyId":0},{"CountyName":"GASTON","Democrats":40104,"Republicans":62470,"Libertarians":1153,"Green":69,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":57550,"White":109790,"Black":29146,"AmericanIndian":330,"NativeHawaiian":14,"Asian":1561,"Multiracial":646,"Undesignated":13135,"Other":6724,"Hispanic":7435,"Male":68589,"Female":80811,"UnDisclosedGender":11946,"Total":161346,"AppVersion":1,"SelectCountyId":0},{"CountyName":"GATES","Democrats":3036,"Republicans":2292,"Libertarians":32,"Green":2,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":2766,"White":5156,"Black":2300,"AmericanIndian":17,"NativeHawaiian":0,"Asian":10,"Multiracial":37,"Undesignated":526,"Other":82,"Hispanic":57,"Male":3561,"Female":3983,"UnDisclosedGender":584,"Total":8128,"AppVersion":1,"SelectCountyId":0},{"CountyName":"GRAHAM","Democrats":940,"Republicans":3222,"Libertarians":31,"Green":0,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":1999,"White":5607,"Black":10,"AmericanIndian":273,"NativeHawaiian":1,"Asian":16,"Multiracial":5,"Undesignated":229,"Other":51,"Hispanic":44,"Male":2918,"Female":3066,"UnDisclosedGender":208,"Total":6192,"AppVersion":1,"SelectCountyId":0},{"CountyName":"GRANVILLE","Democrats":14898,"Republicans":11607,"Libertarians":219,"Green":8,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":14723,"White":22341,"Black":10802,"AmericanIndian":76,"NativeHawaiian":2,"Asian":184,"Multiracial":181,"Undesignated":6542,"Other":1327,"Hispanic":1320,"Male":16086,"Female":18431,"UnDisclosedGender":6938,"Total":41455,"AppVersion":1,"SelectCountyId":0},{"CountyName":"GREENE","Democrats":4327,"Republicans":2715,"Libertarians":30,"Green":4,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3820,"White":5902,"Black":3551,"AmericanIndian":9,"NativeHawaiian":1,"Asian":16,"Multiracial":14,"Undesignated":849,"Other":554,"Hispanic":583,"Male":4622,"Female":5525,"UnDisclosedGender":749,"Total":10896,"AppVersion":1,"SelectCountyId":0},{"CountyName":"GUILFORD","Democrats":151724,"Republicans":88871,"Libertarians":2003,"Green":248,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":143147,"White":192346,"Black":127737,"AmericanIndian":967,"NativeHawaiian":56,"Asian":10831,"Multiracial":2532,"Undesignated":33926,"Other":17598,"Hispanic":16625,"Male":160642,"Female":199853,"UnDisclosedGender":25498,"Total":385993,"AppVersion":1,"SelectCountyId":0},{"CountyName":"HALIFAX","Democrats":18429,"Republicans":4866,"Libertarians":95,"Green":7,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":10855,"White":13251,"Black":17108,"AmericanIndian":949,"NativeHawaiian":4,"Asian":184,"Multiracial":120,"Undesignated":2186,"Other":450,"Hispanic":351,"Male":14392,"Female":17692,"UnDisclosedGender":2168,"Total":34252,"AppVersion":1,"SelectCountyId":0},{"CountyName":"HARNETT","Democrats":23914,"Republicans":34166,"Libertarians":791,"Green":69,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":34428,"White":57045,"Black":18274,"AmericanIndian":482,"NativeHawaiian":33,"Asian":849,"Multiracial":499,"Undesignated":10169,"Other":6017,"Hispanic":6614,"Male":38792,"Female":44977,"UnDisclosedGender":9599,"Total":93368,"AppVersion":1,"SelectCountyId":0},{"CountyName":"HAYWOOD","Democrats":11114,"Republicans":17263,"Libertarians":317,"Green":31,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":19206,"White":43939,"Black":494,"AmericanIndian":136,"NativeHawaiian":0,"Asian":173,"Multiracial":98,"Undesignated":2366,"Other":725,"Hispanic":784,"Male":21680,"Female":24542,"UnDisclosedGender":1709,"Total":47931,"AppVersion":1,"SelectCountyId":0},{"CountyName":"HENDERSON","Democrats":16847,"Republicans":32561,"Libertarians":609,"Green":55,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":41263,"White":78707,"Black":2391,"AmericanIndian":151,"NativeHawaiian":15,"Asian":585,"Multiracial":377,"Undesignated":6006,"Other":3103,"Hispanic":3505,"Male":39233,"Female":46316,"UnDisclosedGender":5786,"Total":91335,"AppVersion":1,"SelectCountyId":0},{"CountyName":"HERTFORD","Democrats":8032,"Republicans":1698,"Libertarians":38,"Green":4,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3685,"White":4477,"Black":7777,"AmericanIndian":89,"NativeHawaiian":3,"Asian":41,"Multiracial":49,"Undesignated":866,"Other":155,"Hispanic":111,"Male":5569,"Female":7083,"UnDisclosedGender":805,"Total":13457,"AppVersion":1,"SelectCountyId":0},{"CountyName":"HOKE","Democrats":12828,"Republicans":7984,"Libertarians":301,"Green":26,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":14317,"White":13431,"Black":12561,"AmericanIndian":1905,"NativeHawaiian":22,"Asian":376,"Multiracial":220,"Undesignated":4215,"Other":2726,"Hispanic":2728,"Male":14673,"Female":17382,"UnDisclosedGender":3401,"Total":35456,"AppVersion":1,"SelectCountyId":0},{"CountyName":"HYDE","Democrats":1182,"Republicans":709,"Libertarians":12,"Green":0,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":1071,"White":2247,"Black":503,"AmericanIndian":2,"NativeHawaiian":0,"Asian":2,"Multiracial":7,"Undesignated":157,"Other":56,"Hispanic":63,"Male":1325,"Female":1499,"UnDisclosedGender":150,"Total":2974,"AppVersion":1,"SelectCountyId":0},{"CountyName":"IREDELL","Democrats":27225,"Republicans":60964,"Libertarians":896,"Green":49,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":57700,"White":112043,"Black":16094,"AmericanIndian":213,"NativeHawaiian":14,"Asian":1772,"Multiracial":411,"Undesignated":10621,"Other":5666,"Hispanic":5996,"Male":64498,"Female":71097,"UnDisclosedGender":11239,"Total":146834,"AppVersion":1,"SelectCountyId":0},{"CountyName":"JACKSON","Democrats":7747,"Republicans":8765,"Libertarians":220,"Green":24,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":13663,"White":24209,"Black":574,"AmericanIndian":1514,"NativeHawaiian":9,"Asian":239,"Multiracial":179,"Undesignated":2945,"Other":750,"Hispanic":898,"Male":12922,"Female":14550,"UnDisclosedGender":2947,"Total":30419,"AppVersion":1,"SelectCountyId":0},{"CountyName":"JOHNSTON","Democrats":40670,"Republicans":61482,"Libertarians":1208,"Green":95,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":64227,"White":109991,"Black":28215,"AmericanIndian":459,"NativeHawaiian":30,"Asian":1268,"Multiracial":576,"Undesignated":17469,"Other":9674,"Hispanic":11420,"Male":71780,"Female":82377,"UnDisclosedGender":13525,"Total":167682,"AppVersion":1,"SelectCountyId":0},{"CountyName":"JONES","Democrats":2159,"Republicans":2405,"Libertarians":30,"Green":0,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":2354,"White":4259,"Black":1823,"AmericanIndian":11,"NativeHawaiian":2,"Asian":19,"Multiracial":22,"Undesignated":694,"Other":118,"Hispanic":130,"Male":2937,"Female":3329,"UnDisclosedGender":682,"Total":6948,"AppVersion":1,"SelectCountyId":0},{"CountyName":"LEE","Democrats":11910,"Republicans":12894,"Libertarians":307,"Green":23,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":15787,"White":25860,"Black":7301,"AmericanIndian":137,"NativeHawaiian":9,"Asian":333,"Multiracial":248,"Undesignated":3886,"Other":3147,"Hispanic":4049,"Male":17115,"Female":20253,"UnDisclosedGender":3553,"Total":40921,"AppVersion":1,"SelectCountyId":0},{"CountyName":"LENOIR","Democrats":14826,"Republicans":10689,"Libertarians":132,"Green":18,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":11931,"White":18349,"Black":13933,"AmericanIndian":52,"NativeHawaiian":5,"Asian":101,"Multiracial":118,"Undesignated":4030,"Other":1008,"Hispanic":1043,"Male":14790,"Female":18806,"UnDisclosedGender":4000,"Total":37596,"AppVersion":1,"SelectCountyId":0},{"CountyName":"LINCOLN","Democrats":11149,"Republicans":33923,"Libertarians":414,"Green":18,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":24560,"White":58344,"Black":3813,"AmericanIndian":88,"NativeHawaiian":2,"Asian":364,"Multiracial":151,"Undesignated":5230,"Other":2072,"Hispanic":2464,"Male":30931,"Female":33666,"UnDisclosedGender":5467,"Total":70064,"AppVersion":1,"SelectCountyId":0},{"CountyName":"MACON","Democrats":4552,"Republicans":12624,"Libertarians":200,"Green":10,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":11727,"White":26470,"Black":205,"AmericanIndian":66,"NativeHawaiian":1,"Asian":123,"Multiracial":58,"Undesignated":1484,"Other":706,"Hispanic":748,"Male":13549,"Female":15062,"UnDisclosedGender":502,"Total":29113,"AppVersion":1,"SelectCountyId":0},{"CountyName":"MADISON","Democrats":4537,"Republicans":5102,"Libertarians":115,"Green":14,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":7756,"White":15449,"Black":112,"AmericanIndian":26,"NativeHawaiian":3,"Asian":65,"Multiracial":39,"Undesignated":1594,"Other":236,"Hispanic":206,"Male":7541,"Female":8133,"UnDisclosedGender":1850,"Total":17524,"AppVersion":1,"SelectCountyId":0},{"CountyName":"MARTIN","Democrats":6965,"Republicans":3669,"Libertarians":60,"Green":6,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":5526,"White":8547,"Black":5845,"AmericanIndian":24,"NativeHawaiian":1,"Asian":23,"Multiracial":49,"Undesignated":1481,"Other":256,"Hispanic":236,"Male":6523,"Female":8236,"UnDisclosedGender":1467,"Total":16226,"AppVersion":1,"SelectCountyId":0},{"CountyName":"MCDOWELL","Democrats":4944,"Republicans":13889,"Libertarians":178,"Green":11,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":11770,"White":27678,"Black":825,"AmericanIndian":38,"NativeHawaiian":0,"Asian":155,"Multiracial":121,"Undesignated":1296,"Other":679,"Hispanic":714,"Male":14014,"Female":15251,"UnDisclosedGender":1527,"Total":30792,"AppVersion":1,"SelectCountyId":0},{"CountyName":"MECKLENBURG","Democrats":318790,"Republicans":157239,"Libertarians":5414,"Green":590,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":335556,"White":410277,"Black":244269,"AmericanIndian":2097,"NativeHawaiian":94,"Asian":25695,"Multiracial":4764,"Undesignated":80157,"Other":50236,"Hispanic":52376,"Male":339823,"Female":407688,"UnDisclosedGender":70078,"Total":817589,"AppVersion":1,"SelectCountyId":0},{"CountyName":"MITCHELL","Democrats":966,"Republicans":6413,"Libertarians":57,"Green":4,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3691,"White":9874,"Black":46,"AmericanIndian":14,"NativeHawaiian":1,"Asian":16,"Multiracial":15,"Undesignated":1049,"Other":116,"Hispanic":151,"Male":4902,"Female":5359,"UnDisclosedGender":870,"Total":11131,"AppVersion":1,"SelectCountyId":0},{"CountyName":"MONTGOMERY","Democrats":4448,"Republicans":6711,"Libertarians":74,"Green":7,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":5987,"White":11946,"Black":2741,"AmericanIndian":46,"NativeHawaiian":1,"Asian":184,"Multiracial":42,"Undesignated":1483,"Other":784,"Hispanic":911,"Male":7479,"Female":8386,"UnDisclosedGender":1362,"Total":17227,"AppVersion":1,"SelectCountyId":0},{"CountyName":"MOORE","Democrats":14618,"Republicans":33335,"Libertarians":612,"Green":24,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":31228,"White":63735,"Black":7251,"AmericanIndian":395,"NativeHawaiian":8,"Asian":746,"Multiracial":246,"Undesignated":4859,"Other":2577,"Hispanic":2261,"Male":34909,"Female":40741,"UnDisclosedGender":4167,"Total":79817,"AppVersion":1,"SelectCountyId":0},{"CountyName":"NASH","Democrats":26265,"Republicans":20032,"Libertarians":270,"Green":22,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":23347,"White":34314,"Black":26262,"AmericanIndian":362,"NativeHawaiian":5,"Asian":377,"Multiracial":257,"Undesignated":6079,"Other":2280,"Hispanic":2239,"Male":28709,"Female":35025,"UnDisclosedGender":6202,"Total":69936,"AppVersion":1,"SelectCountyId":0},{"CountyName":"NEW HANOVER","Democrats":48744,"Republicans":54871,"Libertarians":1349,"Green":134,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":79435,"White":139711,"Black":17773,"AmericanIndian":400,"NativeHawaiian":15,"Asian":1628,"Multiracial":746,"Undesignated":19091,"Other":5169,"Hispanic":4809,"Male":74915,"Female":89145,"UnDisclosedGender":20473,"Total":184533,"AppVersion":1,"SelectCountyId":0},{"CountyName":"NORTHAMPTON","Democrats":7063,"Republicans":1647,"Libertarians":33,"Green":2,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3840,"White":4998,"Black":6557,"AmericanIndian":30,"NativeHawaiian":0,"Asian":11,"Multiracial":14,"Undesignated":879,"Other":96,"Hispanic":82,"Male":5398,"Female":6278,"UnDisclosedGender":909,"Total":12585,"AppVersion":1,"SelectCountyId":0},{"CountyName":"ONSLOW","Democrats":21468,"Republicans":50564,"Libertarians":1656,"Green":62,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":56067,"White":87084,"Black":18519,"AmericanIndian":484,"NativeHawaiian":69,"Asian":1895,"Multiracial":739,"Undesignated":12744,"Other":8283,"Hispanic":8756,"Male":55393,"Female":62412,"UnDisclosedGender":12012,"Total":129817,"AppVersion":1,"SelectCountyId":0},{"CountyName":"ORANGE","Democrats":49363,"Republicans":13297,"Libertarians":478,"Green":79,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":48120,"White":75520,"Black":11433,"AmericanIndian":231,"NativeHawaiian":9,"Asian":5659,"Multiracial":1034,"Undesignated":12474,"Other":4977,"Hispanic":4889,"Male":45206,"Female":54031,"UnDisclosedGender":12100,"Total":111337,"AppVersion":1,"SelectCountyId":0},{"CountyName":"PAMLICO","Democrats":2505,"Republicans":4291,"Libertarians":50,"Green":5,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3392,"White":8002,"Black":1345,"AmericanIndian":24,"NativeHawaiian":1,"Asian":46,"Multiracial":16,"Undesignated":661,"Other":148,"Hispanic":145,"Male":4581,"Female":5022,"UnDisclosedGender":640,"Total":10243,"AppVersion":1,"SelectCountyId":0},{"CountyName":"PASQUOTANK","Democrats":9756,"Republicans":7974,"Libertarians":189,"Green":16,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":11805,"White":16676,"Black":9116,"AmericanIndian":36,"NativeHawaiian":4,"Asian":162,"Multiracial":144,"Undesignated":2847,"Other":755,"Hispanic":509,"Male":12405,"Female":14512,"UnDisclosedGender":2823,"Total":29740,"AppVersion":1,"SelectCountyId":0},{"CountyName":"PENDER","Democrats":10231,"Republicans":21946,"Libertarians":405,"Green":17,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":20250,"White":40735,"Black":5595,"AmericanIndian":142,"NativeHawaiian":5,"Asian":255,"Multiracial":141,"Undesignated":4326,"Other":1650,"Hispanic":1681,"Male":22930,"Female":25259,"UnDisclosedGender":4660,"Total":52849,"AppVersion":1,"SelectCountyId":0},{"CountyName":"PERQUIMANS","Democrats":2569,"Republicans":3879,"Libertarians":56,"Green":3,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3867,"White":7558,"Black":1759,"AmericanIndian":17,"NativeHawaiian":2,"Asian":25,"Multiracial":18,"Undesignated":870,"Other":125,"Hispanic":83,"Male":4412,"Female":5060,"UnDisclosedGender":902,"Total":10374,"AppVersion":1,"SelectCountyId":0},{"CountyName":"PERSON","Democrats":8804,"Republicans":8771,"Libertarians":124,"Green":9,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":10416,"White":18234,"Black":6785,"AmericanIndian":111,"NativeHawaiian":3,"Asian":58,"Multiracial":92,"Undesignated":2158,"Other":683,"Hispanic":683,"Male":12081,"Female":13991,"UnDisclosedGender":2052,"Total":28124,"AppVersion":1,"SelectCountyId":0},{"CountyName":"PITT","Democrats":45201,"Republicans":31170,"Libertarians":687,"Green":79,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":46570,"White":64263,"Black":39153,"AmericanIndian":243,"NativeHawaiian":11,"Asian":1148,"Multiracial":629,"Undesignated":13379,"Other":4881,"Hispanic":4159,"Male":48569,"Female":61353,"UnDisclosedGender":13785,"Total":123707,"AppVersion":1,"SelectCountyId":0},{"CountyName":"POLK","Democrats":3410,"Republicans":6618,"Libertarians":105,"Green":6,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":7014,"White":15131,"Black":577,"AmericanIndian":15,"NativeHawaiian":2,"Asian":54,"Multiracial":36,"Undesignated":1038,"Other":300,"Hispanic":334,"Male":7604,"Female":8939,"UnDisclosedGender":610,"Total":17153,"AppVersion":1,"SelectCountyId":0},{"CountyName":"RANDOLPH","Democrats":13884,"Republicans":51618,"Libertarians":540,"Green":25,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":32106,"White":78521,"Black":6132,"AmericanIndian":296,"NativeHawaiian":9,"Asian":817,"Multiracial":212,"Undesignated":7663,"Other":4523,"Hispanic":5105,"Male":43005,"Female":48057,"UnDisclosedGender":7111,"Total":98173,"AppVersion":1,"SelectCountyId":0},{"CountyName":"RICHMOND","Democrats":10487,"Republicans":8113,"Libertarians":109,"Green":14,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":9444,"White":16293,"Black":8272,"AmericanIndian":395,"NativeHawaiian":3,"Asian":154,"Multiracial":49,"Undesignated":2071,"Other":930,"Hispanic":753,"Male":11998,"Female":14268,"UnDisclosedGender":1901,"Total":28167,"AppVersion":1,"SelectCountyId":0},{"CountyName":"ROBESON","Democrats":30025,"Republicans":16093,"Libertarians":223,"Green":26,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":29810,"White":19813,"Black":18219,"AmericanIndian":25289,"NativeHawaiian":48,"Asian":294,"Multiracial":436,"Undesignated":8695,"Other":3383,"Hispanic":2709,"Male":31048,"Female":38603,"UnDisclosedGender":6526,"Total":76177,"AppVersion":1,"SelectCountyId":0},{"CountyName":"ROCKINGHAM","Democrats":16206,"Republicans":26223,"Libertarians":336,"Green":25,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":21009,"White":44676,"Black":11168,"AmericanIndian":105,"NativeHawaiian":1,"Asian":233,"Multiracial":165,"Undesignated":5822,"Other":1629,"Hispanic":1669,"Male":28088,"Female":32697,"UnDisclosedGender":3014,"Total":63799,"AppVersion":1,"SelectCountyId":0},{"CountyName":"ROWAN","Democrats":21367,"Republicans":43599,"Libertarians":625,"Green":48,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":34700,"White":72031,"Black":15476,"AmericanIndian":165,"NativeHawaiian":7,"Asian":586,"Multiracial":316,"Undesignated":7941,"Other":3817,"Hispanic":4138,"Male":43056,"Female":49004,"UnDisclosedGender":8279,"Total":100339,"AppVersion":1,"SelectCountyId":0},{"CountyName":"RUTHERFORD","Democrats":8671,"Republicans":20940,"Libertarians":252,"Green":17,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":16833,"White":37741,"Black":3754,"AmericanIndian":45,"NativeHawaiian":1,"Asian":154,"Multiracial":95,"Undesignated":3842,"Other":1081,"Hispanic":1059,"Male":20014,"Female":22985,"UnDisclosedGender":3714,"Total":46713,"AppVersion":1,"SelectCountyId":0},{"CountyName":"SAMPSON","Democrats":11661,"Republicans":15996,"Libertarians":175,"Green":13,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":10558,"White":22232,"Black":9631,"AmericanIndian":525,"NativeHawaiian":2,"Asian":100,"Multiracial":110,"Undesignated":3023,"Other":2780,"Hispanic":3320,"Male":16694,"Female":19505,"UnDisclosedGender":2204,"Total":38403,"AppVersion":1,"SelectCountyId":0},{"CountyName":"SCOTLAND","Democrats":8572,"Republicans":5044,"Libertarians":80,"Green":13,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":8072,"White":9407,"Black":7433,"AmericanIndian":1773,"NativeHawaiian":18,"Asian":170,"Multiracial":115,"Undesignated":2549,"Other":316,"Hispanic":289,"Male":8575,"Female":10794,"UnDisclosedGender":2412,"Total":21781,"AppVersion":1,"SelectCountyId":0},{"CountyName":"STANLY","Democrats":7915,"Republicans":22713,"Libertarians":229,"Green":36,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":15788,"White":35720,"Black":4864,"AmericanIndian":82,"NativeHawaiian":7,"Asian":458,"Multiracial":69,"Undesignated":4417,"Other":1064,"Hispanic":1027,"Male":19668,"Female":22226,"UnDisclosedGender":4787,"Total":46681,"AppVersion":1,"SelectCountyId":0},{"CountyName":"STOKES","Democrats":4721,"Republicans":18033,"Libertarians":210,"Green":19,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":10544,"White":28811,"Black":1241,"AmericanIndian":56,"NativeHawaiian":2,"Asian":81,"Multiracial":81,"Undesignated":2740,"Other":515,"Hispanic":574,"Male":15997,"Female":17417,"UnDisclosedGender":113,"Total":33527,"AppVersion":1,"SelectCountyId":0},{"CountyName":"SURRY","Democrats":8173,"Republicans":23513,"Libertarians":223,"Green":18,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":16595,"White":40753,"Black":1602,"AmericanIndian":46,"NativeHawaiian":3,"Asian":138,"Multiracial":98,"Undesignated":4014,"Other":1868,"Hispanic":2434,"Male":21391,"Female":23873,"UnDisclosedGender":3258,"Total":48522,"AppVersion":1,"SelectCountyId":0},{"CountyName":"SWAIN","Democrats":2484,"Republicans":3313,"Libertarians":71,"Green":11,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":4064,"White":7423,"Black":95,"AmericanIndian":1599,"NativeHawaiian":1,"Asian":38,"Multiracial":36,"Undesignated":582,"Other":169,"Hispanic":114,"Male":4485,"Female":4947,"UnDisclosedGender":511,"Total":9943,"AppVersion":1,"SelectCountyId":0},{"CountyName":"TRANSYLVANIA","Democrats":5357,"Republicans":8602,"Libertarians":150,"Green":8,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":12314,"White":23453,"Black":705,"AmericanIndian":45,"NativeHawaiian":2,"Asian":100,"Multiracial":72,"Undesignated":1674,"Other":380,"Hispanic":303,"Male":11602,"Female":13150,"UnDisclosedGender":1679,"Total":26431,"AppVersion":1,"SelectCountyId":0},{"CountyName":"TYRRELL","Democrats":938,"Republicans":499,"Libertarians":11,"Green":0,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":896,"White":1426,"Black":623,"AmericanIndian":3,"NativeHawaiian":0,"Asian":21,"Multiracial":4,"Undesignated":222,"Other":45,"Hispanic":42,"Male":1010,"Female":1105,"UnDisclosedGender":229,"Total":2344,"AppVersion":1,"SelectCountyId":0},{"CountyName":"UNION","Democrats":37970,"Republicans":71441,"Libertarians":1121,"Green":82,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":69594,"White":118424,"Black":18977,"AmericanIndian":531,"NativeHawaiian":15,"Asian":4738,"Multiracial":724,"Undesignated":28046,"Other":8753,"Hispanic":9595,"Male":73871,"Female":81985,"UnDisclosedGender":24352,"Total":180208,"AppVersion":1,"SelectCountyId":0},{"CountyName":"VANCE","Democrats":14590,"Republicans":5372,"Libertarians":111,"Green":11,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":7758,"White":11175,"Black":13303,"AmericanIndian":56,"NativeHawaiian":3,"Asian":106,"Multiracial":91,"Undesignated":2205,"Other":903,"Hispanic":927,"Male":11152,"Female":14520,"UnDisclosedGender":2170,"Total":27842,"AppVersion":1,"SelectCountyId":0},{"CountyName":"WAKE","Democrats":279207,"Republicans":173274,"Libertarians":5401,"Green":607,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":379901,"White":504288,"Black":146233,"AmericanIndian":2207,"NativeHawaiian":95,"Asian":38067,"Multiracial":4861,"Undesignated":93802,"Other":48837,"Hispanic":40952,"Male":350051,"Female":403940,"UnDisclosedGender":84399,"Total":838390,"AppVersion":1,"SelectCountyId":0},{"CountyName":"WARREN","Democrats":7306,"Republicans":2551,"Libertarians":42,"Green":2,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":3448,"White":5657,"Black":6044,"AmericanIndian":530,"NativeHawaiian":3,"Asian":34,"Multiracial":44,"Undesignated":821,"Other":216,"Hispanic":172,"Male":5682,"Female":6793,"UnDisclosedGender":874,"Total":13349,"AppVersion":1,"SelectCountyId":0},{"CountyName":"WASHINGTON","Democrats":4243,"Republicans":1550,"Libertarians":22,"Green":1,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":2178,"White":3627,"Black":3619,"AmericanIndian":8,"NativeHawaiian":1,"Asian":17,"Multiracial":13,"Undesignated":602,"Other":107,"Hispanic":78,"Male":3330,"Female":4082,"UnDisclosedGender":582,"Total":7994,"AppVersion":1,"SelectCountyId":0},{"CountyName":"WATAUGA","Democrats":10632,"Republicans":12370,"Libertarians":320,"Green":61,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":21105,"White":38420,"Black":828,"AmericanIndian":51,"NativeHawaiian":14,"Asian":377,"Multiracial":431,"Undesignated":3530,"Other":837,"Hispanic":1405,"Male":19213,"Female":21994,"UnDisclosedGender":3281,"Total":44488,"AppVersion":1,"SelectCountyId":0},{"CountyName":"WAYNE","Democrats":25385,"Republicans":26679,"Libertarians":440,"Green":32,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":23697,"White":41731,"Black":23162,"AmericanIndian":148,"NativeHawaiian":7,"Asian":557,"Multiracial":368,"Undesignated":5946,"Other":4314,"Hispanic":4010,"Male":31877,"Female":38122,"UnDisclosedGender":6234,"Total":76233,"AppVersion":1,"SelectCountyId":0},{"CountyName":"WILKES","Democrats":5997,"Republicans":25266,"Libertarians":191,"Green":12,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":13795,"White":39245,"Black":1565,"AmericanIndian":49,"NativeHawaiian":0,"Asian":158,"Multiracial":95,"Undesignated":3121,"Other":1028,"Hispanic":1168,"Male":19992,"Female":22026,"UnDisclosedGender":3243,"Total":45261,"AppVersion":1,"SelectCountyId":0},{"CountyName":"WILSON","Democrats":22479,"Republicans":14088,"Libertarians":232,"Green":23,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":16931,"White":26396,"Black":20621,"AmericanIndian":120,"NativeHawaiian":2,"Asian":297,"Multiracial":132,"Undesignated":3802,"Other":2383,"Hispanic":2238,"Male":22201,"Female":28009,"UnDisclosedGender":3543,"Total":53753,"AppVersion":1,"SelectCountyId":0},{"CountyName":"YADKIN","Democrats":2685,"Republicans":14716,"Libertarians":125,"Green":3,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":8009,"White":21933,"Black":727,"AmericanIndian":23,"NativeHawaiian":2,"Asian":67,"Multiracial":35,"Undesignated":1776,"Other":975,"Hispanic":1187,"Male":11381,"Female":12359,"UnDisclosedGender":1798,"Total":25538,"AppVersion":1,"SelectCountyId":0},{"CountyName":"YANCEY","Democrats":3383,"Republicans":5554,"Libertarians":82,"Green":9,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":5408,"White":12981,"Black":70,"AmericanIndian":28,"NativeHawaiian":1,"Asian":32,"Multiracial":21,"Undesignated":1122,"Other":181,"Hispanic":190,"Male":6482,"Female":7018,"UnDisclosedGender":936,"Total":14436,"AppVersion":1,"SelectCountyId":0},{"CountyName":"Totals","Democrats":2312990,"Republicans":2315067,"Libertarians":46608,"Green":4368,"NoLabels":0,"Constitution":0,"JusticeForAll":0,"WeThePeople":0,"Unaffiliated":2976558,"White":4885319,"Black":1480306,"AmericanIndian":54971,"NativeHawaiian":1101,"Asian":139641,"Multiracial":35651,"Undesignated":723541,"Other":335061,"Hispanic":339608,"Male":3214246,"Female":3771031,"UnDisclosedGender":670314,"Total":7655591,"AppVersion":0,"SelectCountyId":0}],"Total":101}}});});</script>
+        </div>
+        <div id="mobileView">
+            
+<link rel="stylesheet" href="/css/RegistrationStatistics/RegistrationStatistics.css?v=KW63ITW2Wl89XutdmDjeJxUM8rGOKPe34-KsgnDOdzg" />
+<link rel="stylesheet" href="/lib/select2/css/select2.min.css?v=FdatTf20PQr_rWg-cAKfl6j4_IY3oohFAJ7gVC3M34E" />
+
+<div class="row" style="padding-bottom: 0;">
+    <div id="registrationStatisticsSearchCriteria" class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2 preload-hidden" style="padding-bottom: 0;">
+        <div class="ibox" id="searchCriteria" style="padding-bottom:0;">
+            <div class="ibox-content p-xs" style="padding-top:5px; padding-bottom:0;" id="searchCriteriaContent">
+                <div class="panel-body" style="padding: 0 12px 0;">
+                    <div class="form-group col-sm-12 col-sm-max">
+                        <h2 class="center-text">Reporting Period: 01/03/2026</h2>
+                        <br/> 
+                        <select class="form-control centered-select county-select" data-val="true" data-val-required="The SelectCountyId field is required." id="SelectCountyId" name="SelectCountyId" style="width: 200px; max-width: 200px; margin-left: auto; margin-right: auto; display: block;"><option selected="selected" value="0">Select a County</option>
+<option value="101">Statewide Total</option>
+<option value="1">ALAMANCE</option>
+<option value="2">ALEXANDER</option>
+<option value="3">ALLEGHANY</option>
+<option value="4">ANSON</option>
+<option value="5">ASHE</option>
+<option value="6">AVERY</option>
+<option value="7">BEAUFORT</option>
+<option value="8">BERTIE</option>
+<option value="9">BLADEN</option>
+<option value="10">BRUNSWICK</option>
+<option value="11">BUNCOMBE</option>
+<option value="12">BURKE</option>
+<option value="13">CABARRUS</option>
+<option value="14">CALDWELL</option>
+<option value="15">CAMDEN</option>
+<option value="16">CARTERET</option>
+<option value="17">CASWELL</option>
+<option value="18">CATAWBA</option>
+<option value="19">CHATHAM</option>
+<option value="20">CHEROKEE</option>
+<option value="21">CHOWAN</option>
+<option value="22">CLAY</option>
+<option value="23">CLEVELAND</option>
+<option value="24">COLUMBUS</option>
+<option value="25">CRAVEN</option>
+<option value="26">CUMBERLAND</option>
+<option value="27">CURRITUCK</option>
+<option value="28">DARE</option>
+<option value="29">DAVIDSON</option>
+<option value="30">DAVIE</option>
+<option value="31">DUPLIN</option>
+<option value="32">DURHAM</option>
+<option value="33">EDGECOMBE</option>
+<option value="34">FORSYTH</option>
+<option value="35">FRANKLIN</option>
+<option value="36">GASTON</option>
+<option value="37">GATES</option>
+<option value="38">GRAHAM</option>
+<option value="39">GRANVILLE</option>
+<option value="40">GREENE</option>
+<option value="41">GUILFORD</option>
+<option value="42">HALIFAX</option>
+<option value="43">HARNETT</option>
+<option value="44">HAYWOOD</option>
+<option value="45">HENDERSON</option>
+<option value="46">HERTFORD</option>
+<option value="47">HOKE</option>
+<option value="48">HYDE</option>
+<option value="49">IREDELL</option>
+<option value="50">JACKSON</option>
+<option value="51">JOHNSTON</option>
+<option value="52">JONES</option>
+<option value="53">LEE</option>
+<option value="54">LENOIR</option>
+<option value="55">LINCOLN</option>
+<option value="56">MACON</option>
+<option value="57">MADISON</option>
+<option value="58">MARTIN</option>
+<option value="59">MCDOWELL</option>
+<option value="60">MECKLENBURG</option>
+<option value="61">MITCHELL</option>
+<option value="62">MONTGOMERY</option>
+<option value="63">MOORE</option>
+<option value="64">NASH</option>
+<option value="65">NEW HANOVER</option>
+<option value="66">NORTHAMPTON</option>
+<option value="67">ONSLOW</option>
+<option value="68">ORANGE</option>
+<option value="69">PAMLICO</option>
+<option value="70">PASQUOTANK</option>
+<option value="71">PENDER</option>
+<option value="72">PERQUIMANS</option>
+<option value="73">PERSON</option>
+<option value="74">PITT</option>
+<option value="75">POLK</option>
+<option value="76">RANDOLPH</option>
+<option value="77">RICHMOND</option>
+<option value="78">ROBESON</option>
+<option value="79">ROCKINGHAM</option>
+<option value="80">ROWAN</option>
+<option value="81">RUTHERFORD</option>
+<option value="82">SAMPSON</option>
+<option value="83">SCOTLAND</option>
+<option value="84">STANLY</option>
+<option value="85">STOKES</option>
+<option value="86">SURRY</option>
+<option value="87">SWAIN</option>
+<option value="88">TRANSYLVANIA</option>
+<option value="89">TYRRELL</option>
+<option value="90">UNION</option>
+<option value="91">VANCE</option>
+<option value="92">WAKE</option>
+<option value="93">WARREN</option>
+<option value="94">WASHINGTON</option>
+<option value="95">WATAUGA</option>
+<option value="96">WAYNE</option>
+<option value="97">WILKES</option>
+<option value="98">WILSON</option>
+<option value="99">YADKIN</option>
+<option value="100">YANCEY</option>
+</select>
+                    </div>
+                    <div id="CountyDetailResult">
+                        
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        </div>
+    </div>
+</div>
+</section>
+</div>
+</div>
+<script src="/js/RegistrationStatistics/RegistrationStatisticsResults.js?v=lztSZVn1-w_gK0PWqwI-leSDCUyMRAGbFrr7LeTV_k4"></script>
+
+
+        </div>
+        <noscript b-ct5k6qwudn>
+            <style type="text/css">
+                #mainContent {
+                    display: none;
+                }
+            </style>
+            <div b-ct5k6qwudn class="wrapper-content text-danger text-center" role="alert" aria-live="assertive" tabindex="0">
+                <br b-ct5k6qwudn/>
+                <h3 b-ct5k6qwudn>You don’t have javascript enabled. This site will not function without enabling it.</h3>
+            </div>
+        </noscript>
+    </main>
+
+
+    <footer b-ct5k6qwudn class="footer text-center d-flex align-items-center">
+        <div b-ct5k6qwudn id="footerText" tabindex="-1">
+            © 2014-2026
+            <a b-ct5k6qwudn type="button" class="btn-link" href="https://www.ncsbe.gov/" style="white-space: nowrap;"><strong b-ct5k6qwudn>NC State Board of Elections</strong></a>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script>(window.bootstrap||document.write("\u003Cscript src=\u0022/lib/bootstrap/dist/js/bootstrap.bundle.min.js\u0022\u003E\u003C/script\u003E"));</script>
+    <script src="/js/site.js?v=GuwVJ50QYASP6IuY2YdMcPd5okaoSJYjeX4_2eBHAdY"></script>
+    <script type="text/javascript">
+        // Close all navbar menus when viewport crosses the mobile/desktop breakpoint
+        (function() {
+            var mobileBreakpoint = 768;
+            var wasMobile = window.innerWidth < mobileBreakpoint;
+            
+            function closeAllNavbarMenus() {
+                // Close Bootstrap collapse (mobile hamburger menu)
+                var navbarCollapse = document.getElementById('navbar');
+                if (navbarCollapse) {
+                    var bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                    if (bsCollapse) {
+                        bsCollapse.hide();
+                    } else {
+                        navbarCollapse.classList.remove('show');
+                    }
+                }
+                
+                // Close Bootstrap dropdown (desktop Applications menu)
+                var dropdownToggle = document.getElementById('applicationAnchor');
+                if (dropdownToggle) {
+                    var bsDropdown = bootstrap.Dropdown.getInstance(dropdownToggle);
+                    if (bsDropdown) {
+                        bsDropdown.hide();
+                    }
+                }
+                // Also remove show class from dropdown menu container
+                var dropdownMenu = document.getElementById('menu_desktop');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.remove('show');
+                }
+                var dropdownParent = document.getElementById('headerMenuDropdown');
+                if (dropdownParent) {
+                    dropdownParent.classList.remove('show');
+                }
+            }
+            
+            window.addEventListener('resize', function() {
+                var isMobile = window.innerWidth < mobileBreakpoint;
+                // If we crossed the breakpoint, close all menus
+                if (isMobile !== wasMobile) {
+                    closeAllNavbarMenus();
+                    wasMobile = isMobile;
+                }
+            });
+        })();
+
+        //load the menu with the sites in /sites.txt
+        $(document).ready(function () {
+                var fileSites = new XMLHttpRequest();
+                var arrSites;
+                var timeDayHourMinute = String(new Date().getDate()) + '-' + String(new Date().getHours()) + '-' + String(new Date().getMinutes());
+
+                fileSites.open('get', "/sites.txt" + '?v=' + timeDayHourMinute, false);
+                fileSites.send(null);
+
+                arrSites = JSON.parse(fileSites.responseText);
+
+                arrSites.sort(function (a, b) {
+                    if (a.name > b.name) { return 1 }
+                    if (a.name < b.name) { return -1 }
+                    return 0;
+                });
+
+            for (i = 0; i < arrSites.length; i++) {
+                var linkHtml = '<a class="dropdown-item" href="' + arrSites[i].url + '">' + arrSites[i].name + '</a>';
+                $('#menu_mobile').append('<li class="visible-xs-block">' + linkHtml + '</li>');
+                $('#menu_desktop').append('<li>' + linkHtml + '</li>');
+                if ($('#menu_index').length) {
+                    // Directly add style for color to the <a> tag for menu_index links
+                    $('#menu_index').append('<li>' + linkHtml.replace('<a ', '<a style="color:#337ab7;" ') + '</li>');
+                }
+            }
+            });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
+<script>(window.jQuery && window.jQuery.fn && window.jQuery.fn.select2||document.write("\u003Cscript src=\u0022/lib/select2/js/select2.full.min.js?v=vjFnliBY8DzX9jsgU_z1_mOuQxk7erhiP0Iw35fVhTU\u0022\u003E\u003C/script\u003E"));</script>
+    <script>
+        (function () {
+            function initCountySelect2() {
+                if (!window.jQuery || !window.jQuery.fn || !window.jQuery.fn.select2) {
+                    return;
+                }
+
+                window.jQuery('.county-select').select2({
+                    width: '200px',
+                    dropdownAutoWidth: false,
+                    minimumResultsForSearch: Infinity,
+                    dropdownCssClass: 'county-select-dropdown'
+                });
+
+                // Fix accessibility: remove aria-labelledby and add aria-label on the combobox
+                window.jQuery('.county-select').each(function() {
+                    var $combobox = window.jQuery(this).next('.select2-container').find('[role="combobox"]');
+                    $combobox.removeAttr('aria-labelledby').attr('aria-label', 'County');
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initCountySelect2);
+            } else {
+                initCountySelect2();
+            }
+
+            window.VoterTools = window.VoterTools || {};
+            window.VoterTools.initCountySelect2 = initCountySelect2;
+        })();
+    </script>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-50M238KFRX"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-50M238KFRX');
+        </script>
+</body>
+</html>
